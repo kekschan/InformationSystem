@@ -11,15 +11,13 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
 public abstract class Wagon {
 
     // В данном классе мы используем длину, ширину и высоту,
     // чтобы вычесть у определенного типа грузового выгона объем.
     // В дальнейшем это удобно будет применять вместе с грузами
 
-    @Id
-    @GeneratedValue
+
     private UUID id;
 
     protected double volume;
@@ -27,8 +25,7 @@ public abstract class Wagon {
     protected double width;
     protected double height;
 
-    @ManyToOne
-    @JoinColumn(name = "train_id")
+
     private FreightTrain train;
 
     protected abstract double calculateVolume();

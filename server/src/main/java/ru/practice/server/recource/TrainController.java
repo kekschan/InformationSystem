@@ -1,9 +1,11 @@
 package ru.practice.server.recource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.practice.server.model.trains.Train;
+import ru.practice.server.model.trains.dto.TrainDto;
 import ru.practice.server.model.trains.type.FreightTrain;
 import ru.practice.server.model.trains.type.PassengerTrain;
 import ru.practice.server.repository.TrainRepository;
@@ -18,34 +20,34 @@ public class TrainController {
 
     private final TrainRepository trainRepository;
 
-    @Autowired
     public TrainController(TrainRepository trainRepository) {
         this.trainRepository = trainRepository;
     }
 
-    @PostMapping("/freight")
-    public ResponseEntity<String> addFreightTrain(@RequestBody FreightTrain freightTrain) {
-        if (freightTrain.getTrainNumber() == null || freightTrain.getTrainNumber().isEmpty()) {
-            return ResponseEntity.badRequest().body("Грузовой поезд не удалось добавить!");
-        }
-        if (isTrainNumberUnique(freightTrain.getTrainNumber())) {
-            trainRepository.save(freightTrain);
-            return ResponseEntity.ok("Грузовой поезд успешно добавлен!");
-        } else {
-            return ResponseEntity.badRequest().body("Поезд с таким названием уже существует!");
-        }
-    }
+    @PostMapping
+    public ResponseEntity<String> addTrain(@RequestBody TrainDto trainDto) {
+        try {
+            String trainNumber = trainDto.getTrainNumber();
 
-    @PostMapping("/passenger")
-    public ResponseEntity<String> addPassengerTrain(@RequestBody PassengerTrain passengerTrain) {
-        if (passengerTrain.getTrainNumber() == null || passengerTrain.getTrainNumber().isEmpty()) {
-            return ResponseEntity.badRequest().body("Пассажирский поезд не удалось добавить!");
-        }
-        if (isTrainNumberUnique(passengerTrain.getTrainNumber())) {
-            trainRepository.save(passengerTrain);
-            return ResponseEntity.ok("Пассажирский поезд успешно добавлен!");
-        } else {
-            return ResponseEntity.badRequest().body("Поезд с таким названием уже существует!");
+            // Проверяем, есть ли уже поезд с таким номером
+            if (trainRepository.existsByTrainNumber(trainNumber)) {
+                return ResponseEntity.badRequest().body("Train with trainNumber " + trainNumber + " already exists.");
+            }
+
+            Train train;
+            if ("freight".equalsIgnoreCase(trainDto.getTrainType())) {
+                train = new FreightTrain();
+            } else if ("passenger".equalsIgnoreCase(trainDto.getTrainType())) {
+                train = new PassengerTrain();
+            } else {
+                return ResponseEntity.badRequest().body("Invalid train type. It should be either 'freight' or 'passenger'.");
+            }
+
+            train.setTrainNumber(trainNumber);
+            trainRepository.save(train);
+            return ResponseEntity.ok("Train added successfully.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to add train.");
         }
     }
 
@@ -56,19 +58,13 @@ public class TrainController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteTrainById(@PathVariable UUID id) {
-        Optional<Train> optionalTrain = trainRepository.findById(id);
-        if (optionalTrain.isPresent()) {
-            Train train = optionalTrain.get();
-            String trainNumber = train.getTrainNumber();
-            trainRepository.delete(train);
-            return ResponseEntity.ok("Поезд с номером " + trainNumber  + " удален.");
-        } else {
-            return ResponseEntity.notFound().build();
+    public ResponseEntity<String> deleteTrain(@PathVariable UUID id) {
+        try {
+            trainRepository.deleteById(id);
+            return ResponseEntity.ok("Train deleted successfully.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to delete train.");
         }
     }
-    private boolean isTrainNumberUnique(String trainNumber) {
-        // Проверяем, существует ли уже поезд с таким номером в базе данных
-        return trainRepository.findByTrainNumber(trainNumber) == null;
-    }
 }
+

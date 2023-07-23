@@ -18,7 +18,9 @@ public abstract class Train {
     @GeneratedValue
     private UUID id;
 
-    @Column(name = "train_number", unique = true)
+    @Column(unique = true)
     private String trainNumber;
+
+
 
 }

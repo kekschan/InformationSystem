@@ -8,5 +8,5 @@ import java.util.UUID;
 
 @Repository
 public interface TrainRepository extends JpaRepository<Train, UUID> {
-    Train findByTrainNumber(String trainNumber);
+    boolean existsByTrainNumber(String trainNumber);
 }
