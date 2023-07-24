@@ -5,6 +5,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.practice.server.model.wagon.freight.FreightWagon;
 import ru.practice.server.model.wagon.passenger.WagonForPeople;
+import ru.practice.server.model.wagon.passenger.exemplar.mailWagon.MailWagon;
+import ru.practice.server.model.wagon.passenger.exemplar.passengerWagon.PassengerWagon;
+import ru.practice.server.model.wagon.passenger.exemplar.restaurantWagon.RestaurantWagon;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -30,6 +33,14 @@ public abstract class Train {
 
     @OneToMany(mappedBy = "train")
     @JsonIgnoreProperties("train")  // Игнорируем поле "train" во избежание циклической ссылки
-    private List<WagonForPeople> wagonsForPeople = new ArrayList<>();
+    private List<MailWagon> mailWagons = new ArrayList<>();
+
+    @OneToMany(mappedBy = "train")
+    @JsonIgnoreProperties("train")  // Игнорируем поле "train" во избежание циклической ссылки
+    private List<PassengerWagon> passengerWagons = new ArrayList<>();
+
+    @OneToMany(mappedBy = "train")
+    @JsonIgnoreProperties("train")  // Игнорируем поле "train" во избежание циклической ссылки
+    private List<RestaurantWagon> restaurantWagons = new ArrayList<>();
 
 }

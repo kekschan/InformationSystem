@@ -6,6 +6,7 @@ import ru.practice.server.model.wagon.passenger.exemplar.mailWagon.MailWagon;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
+@Data
 @Entity
 @DiscriminatorValue("baggageLetters")
 public class BaggageLetters extends MailWagon {
