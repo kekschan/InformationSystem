@@ -1,13 +1,15 @@
 package ru.practice.server.model.wagon.freight.type;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import ru.practice.server.model.wagon.freight.Wagon;
+import ru.practice.server.model.wagon.freight.FreightWagon;
+
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 @Data
-public class TankWagon extends Wagon {
+@Entity
+@DiscriminatorValue("tank")
+public class TankFreightWagon extends FreightWagon {
 
     private static final double TANK_LENGTH = 7.0;
     private static final double TANK_WIDTH = 2.5;
@@ -19,7 +21,7 @@ public class TankWagon extends Wagon {
         return length * width * height;
     }
 
-    public TankWagon() {
+    public TankFreightWagon() {
         super(TANK_LENGTH, TANK_WIDTH, TANK_HEIGHT);
     }
 }

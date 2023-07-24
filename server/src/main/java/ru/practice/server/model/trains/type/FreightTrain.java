@@ -1,8 +1,11 @@
 package ru.practice.server.model.trains.type;
 
 import ru.practice.server.model.trains.Train;
+import ru.practice.server.model.wagon.freight.FreightWagon;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @DiscriminatorValue("freight")
