@@ -14,4 +14,5 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class MailWagonDto{
     private int accommodation;
+    private String wagonType;
 }

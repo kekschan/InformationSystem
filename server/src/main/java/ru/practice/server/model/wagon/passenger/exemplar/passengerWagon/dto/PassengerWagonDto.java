@@ -14,4 +14,5 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class PassengerWagonDto {
     private int beds;
+    private String wagonType;
 }

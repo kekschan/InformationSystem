@@ -14,4 +14,5 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class RestaurantWagonDto {
     private boolean hasAlcohol;
+    private String wagonType;
 }

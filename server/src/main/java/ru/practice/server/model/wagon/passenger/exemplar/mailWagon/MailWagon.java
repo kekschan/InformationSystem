@@ -32,5 +32,4 @@ public abstract class MailWagon extends WagonForPeople {
         super(seatingCapacity, tables, toilets, hasVentilation);
         this.accommodation = accommodation;
     }
-
 }
