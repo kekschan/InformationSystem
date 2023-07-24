@@ -1,5 +1,6 @@
 package ru.practice.server.model.trains;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,7 +26,8 @@ public abstract class Train {
     private String trainNumber;
 
     @OneToMany(mappedBy = "train")
-    @JsonIgnore  // Игнорируем поле "wagons" при сериализации
+
+    @JsonIgnoreProperties("train")  // Игнорируем поле "train" во избежание циклической ссылки
     private List<FreightWagon> wagons = new ArrayList<>();
 
 
