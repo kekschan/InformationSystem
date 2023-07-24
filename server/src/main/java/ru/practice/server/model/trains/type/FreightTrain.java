@@ -1,5 +1,6 @@
 package ru.practice.server.model.trains.type;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import ru.practice.server.model.trains.Train;
 import ru.practice.server.model.wagon.freight.FreightWagon;
 

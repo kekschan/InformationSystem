@@ -1,10 +1,10 @@
 package ru.practice.server.model.trains;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.practice.server.model.wagon.freight.FreightWagon;
+import ru.practice.server.model.wagon.passenger.WagonForPeople;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -22,14 +22,14 @@ public abstract class Train {
     @Id
     @GeneratedValue
     private UUID id;
-
     private String trainNumber;
 
     @OneToMany(mappedBy = "train")
-
     @JsonIgnoreProperties("train")  // Игнорируем поле "train" во избежание циклической ссылки
-    private List<FreightWagon> wagons = new ArrayList<>();
+    private List<FreightWagon> freightWagon = new ArrayList<>();
 
-
+    @OneToMany(mappedBy = "train")
+    @JsonIgnoreProperties("train")  // Игнорируем поле "train" во избежание циклической ссылки
+    private List<WagonForPeople> wagonsForPeople = new ArrayList<>();
 
 }

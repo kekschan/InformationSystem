@@ -6,6 +6,7 @@ import ru.practice.server.exception.MaxWagonLimitExceededException;
 import ru.practice.server.exception.TrainNotFoundException;
 import ru.practice.server.exception.WagonNotFoundException;
 import ru.practice.server.model.trains.Train;
+import ru.practice.server.model.trains.type.FreightTrain;
 import ru.practice.server.model.wagon.freight.FreightWagon;
 import ru.practice.server.model.wagon.freight.dto.FreightWagonDto;
 import ru.practice.server.model.wagon.freight.type.FlatcarFreightWagon;
@@ -37,8 +38,12 @@ public class FreightWagonController {
             throw new TrainNotFoundException("Train with id " + trainId + " not found.");
         }
         Train train = optionalTrain.get();
-        if (train.getWagons().size() >= 15) {
+        if (train.getFreightWagon().size() >= 15) {
             throw new MaxWagonLimitExceededException("Maximum number of wagons (15) for this train exceeded.");
+        }
+        // Check if the train is a FreightTrain
+        if (!(train instanceof FreightTrain)) {
+            return ResponseEntity.badRequest().body("Train with id " + trainId + " is not a FreightTrain.");
         }
         FreightWagon freightWagon;
         if ("flatcar".equalsIgnoreCase(wagonDto.getWagonType())) {
@@ -51,7 +56,7 @@ public class FreightWagonController {
             return ResponseEntity.badRequest().body("Invalid wagon type. It should be 'flatcar', 'gondola', or 'tank'.");
         }
 
-        train.getWagons().add(freightWagon);
+        train.getFreightWagon().add(freightWagon);
         freightWagon.setTrain(train);
         freightWagonRepository.save(freightWagon);
         return ResponseEntity.ok("Wagon added successfully to train with id " + trainId + ".");
@@ -74,14 +79,14 @@ public class FreightWagonController {
             throw new TrainNotFoundException("Train with id " + trainId + " not found.");
         }
         Train train = optionalTrain.get();
-        FreightWagon freightWagonToRemove = train.getWagons().stream()
+        FreightWagon freightWagonToRemove = train.getFreightWagon().stream()
                 .filter(wagon -> wagon.getId().equals(wagonId))
                 .findFirst()
                 .orElse(null);
         if (freightWagonToRemove == null) {
             throw new WagonNotFoundException("Freight wagon with id " + wagonId + " not found in the train.");
         }
-        train.getWagons().remove(freightWagonToRemove);
+        train.getFreightWagon().remove(freightWagonToRemove);
         freightWagonToRemove.setTrain(null);
         freightWagonRepository.delete(freightWagonToRemove);
         return ResponseEntity.ok("Freight wagon removed successfully from train with id " + trainId + ".");

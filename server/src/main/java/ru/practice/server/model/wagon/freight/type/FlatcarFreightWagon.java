@@ -6,7 +6,6 @@ import ru.practice.server.model.wagon.freight.FreightWagon;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
-@Data
 @Entity
 @DiscriminatorValue("flatcar")
 public class FlatcarFreightWagon extends FreightWagon {

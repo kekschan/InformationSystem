@@ -1,10 +1,6 @@
 package ru.practice.server.model.trains.type;
 
 import ru.practice.server.model.trains.Train;
-
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
