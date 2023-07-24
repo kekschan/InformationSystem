@@ -1,8 +1,10 @@
 package ru.practice.server.recource;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.practice.server.exception.MaxWagonLimitExceededException;
+import ru.practice.server.exception.TrainNotFoundException;
+import ru.practice.server.exception.WagonNotFoundException;
 import ru.practice.server.model.trains.Train;
 import ru.practice.server.model.wagon.freight.FreightWagon;
 import ru.practice.server.model.wagon.freight.dto.FreightWagonDto;
@@ -29,13 +31,15 @@ public class FreightWagonController {
     }
 
     @PostMapping("/{trainId}/wagons")
-    public ResponseEntity<String> addFreightWagonToTrain(@PathVariable UUID trainId, @RequestBody FreightWagonDto wagonDto) {
+    public ResponseEntity<String> addFreightWagonToTrain(@PathVariable UUID trainId, @RequestBody FreightWagonDto wagonDto) throws MaxWagonLimitExceededException, TrainNotFoundException {
         Optional<Train> optionalTrain = trainRepository.findById(trainId);
         if (optionalTrain.isEmpty()) {
-            return ResponseEntity.badRequest().body("Train with id " + trainId + " not found.");
+            throw new TrainNotFoundException("Train with id " + trainId + " not found.");
         }
-
         Train train = optionalTrain.get();
+        if (train.getWagons().size() >= 15) {
+            throw new MaxWagonLimitExceededException("Maximum number of wagons (15) for this train exceeded.");
+        }
         FreightWagon freightWagon;
         if ("flatcar".equalsIgnoreCase(wagonDto.getWagonType())) {
             freightWagon = new FlatcarFreightWagon();
@@ -47,17 +51,42 @@ public class FreightWagonController {
             return ResponseEntity.badRequest().body("Invalid wagon type. It should be 'flatcar', 'gondola', or 'tank'.");
         }
 
-        /*train.getWagons().add(freightWagon);*/
+        train.getWagons().add(freightWagon);
         freightWagon.setTrain(train);
         freightWagonRepository.save(freightWagon);
         return ResponseEntity.ok("Wagon added successfully to train with id " + trainId + ".");
     }
 
     @GetMapping("/{trainId}/wagons")
-    public ResponseEntity<List<FreightWagon>> getAllWagonsForTrain(@PathVariable UUID trainId) {
+    public ResponseEntity<List<FreightWagon>> getAllWagonsForTrain(@PathVariable UUID trainId) throws TrainNotFoundException {
+        Optional<Train> optionalTrain = trainRepository.findById(trainId);
+        if (optionalTrain.isEmpty()) {
+            throw new TrainNotFoundException("Train with id " + trainId + " not found.");
+        }
         List<FreightWagon> wagons = freightWagonRepository.findByTrainId(trainId);
         return ResponseEntity.ok(wagons);
     }
+
+    @DeleteMapping("/{trainId}/wagons/{wagonId}")
+    public ResponseEntity<String> removeFreightWagonFromTrain(@PathVariable UUID trainId, @PathVariable UUID wagonId) throws TrainNotFoundException, WagonNotFoundException {
+        Optional<Train> optionalTrain = trainRepository.findById(trainId);
+        if (optionalTrain.isEmpty()) {
+            throw new TrainNotFoundException("Train with id " + trainId + " not found.");
+        }
+        Train train = optionalTrain.get();
+        FreightWagon freightWagonToRemove = train.getWagons().stream()
+                .filter(wagon -> wagon.getId().equals(wagonId))
+                .findFirst()
+                .orElse(null);
+        if (freightWagonToRemove == null) {
+            throw new WagonNotFoundException("Freight wagon with id " + wagonId + " not found in the train.");
+        }
+        train.getWagons().remove(freightWagonToRemove);
+        freightWagonToRemove.setTrain(null);
+        freightWagonRepository.delete(freightWagonToRemove);
+        return ResponseEntity.ok("Freight wagon removed successfully from train with id " + trainId + ".");
+    }
 }
+
 
 
