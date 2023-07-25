@@ -24,7 +24,7 @@ public abstract class PassengerWagon extends WagonForPeople {
 
     @ManyToOne
     @JoinColumn(name = "train_id")
-    @JsonIgnoreProperties("wagons")  // Игнорируем поле "wagons" во избежание циклической ссылки
+    @JsonIgnoreProperties("passengerWagons")  // Игнорируем поле "passengerWagons" во избежание циклической ссылки
     private Train train;
     private int beds;
     public PassengerWagon( int seatingCapacity, int tables, boolean toilets, boolean hasVentilation, int beds) {

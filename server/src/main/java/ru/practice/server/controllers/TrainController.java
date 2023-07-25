@@ -1,5 +1,7 @@
 package ru.practice.server.controllers;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +16,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/trains")
+@Tag(name = "Поезд")
 public class TrainController {
 
     private final TrainService trainService;
@@ -23,6 +26,7 @@ public class TrainController {
     }
 
     @PostMapping
+    @Operation(summary = "Добавление поезда", description = "В json требуется указать trainNumber = ('freight' или 'passenger') и trainType = (любые символы)")
     public ResponseEntity<String> addTrain(@RequestBody TrainDto trainDto) {
         try {
             trainService.addTrain(trainDto);
@@ -37,12 +41,14 @@ public class TrainController {
     }
 
     @GetMapping
+    @Operation(summary = "Получение всех поездов вместе с их вагонами")
     public ResponseEntity<List<Train>> getAllTrains() {
         List<Train> trains = trainService.getAllTrains();
         return ResponseEntity.ok(trains);
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "Удаление поезда по его Id")
     public ResponseEntity<String> deleteTrain(@PathVariable UUID id) {
         try {
             trainService.deleteTrain(id);

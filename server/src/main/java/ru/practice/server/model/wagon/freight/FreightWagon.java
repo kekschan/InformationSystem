@@ -30,7 +30,7 @@ public abstract class FreightWagon {
 
     @ManyToOne
     @JoinColumn(name = "train_id")
-    @JsonIgnoreProperties("wagons")  // Игнорируем поле "wagons" во избежание циклической ссылки
+    @JsonIgnoreProperties("train")  // Игнорируем поле "train" во избежание циклической ссылки
     private Train train;
 
     protected abstract double calculateVolume();

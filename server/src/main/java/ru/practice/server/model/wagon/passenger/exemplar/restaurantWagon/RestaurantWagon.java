@@ -24,7 +24,7 @@ public abstract class RestaurantWagon extends WagonForPeople {
 
     @ManyToOne
     @JoinColumn(name = "train_id")
-    @JsonIgnoreProperties("wagons")  // Игнорируем поле "wagons" во избежание циклической ссылки
+    @JsonIgnoreProperties("restaurantWagons")  // Игнорируем поле "restaurantWagons" во избежание циклической ссылки
     private Train train;
     private boolean hasAlcohol;
 

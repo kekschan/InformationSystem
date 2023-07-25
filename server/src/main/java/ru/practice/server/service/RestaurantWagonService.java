@@ -35,7 +35,7 @@ public class RestaurantWagonService {
         }
         Train train = optionalTrain.get();
         if (train.getPassengerWagons().size() + train.getMailWagons().size() + train.getRestaurantWagons().size() >= 20) {
-            throw new MaxWagonLimitExceededException("Maximum number of wagons (10) for this train exceeded.");
+            throw new MaxWagonLimitExceededException("Maximum number of wagons (20) for this train exceeded.");
         }
 
         // Проверка на соответствие

@@ -24,7 +24,7 @@ public abstract class MailWagon extends WagonForPeople {
 
     @ManyToOne
     @JoinColumn(name = "train_id")
-    @JsonIgnoreProperties("wagons")  // Игнорируем поле "wagons" во избежание циклической ссылки
+    @JsonIgnoreProperties("mailWagons")  // Игнорируем поле "mailWagons" во избежание циклической ссылки
     private Train train;
     private int accommodation; //вмещаемость писем
 
