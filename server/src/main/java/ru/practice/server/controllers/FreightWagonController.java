@@ -1,4 +1,4 @@
-package ru.practice.server.recource;
+package ru.practice.server.controllers;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,7 +10,6 @@ import ru.practice.server.model.wagon.freight.dto.FreightWagonDto;
 import ru.practice.server.service.FreightWagonService;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @RestController

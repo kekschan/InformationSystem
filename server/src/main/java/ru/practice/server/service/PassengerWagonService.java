@@ -35,7 +35,7 @@ public class PassengerWagonService {
             throw new TrainNotFoundException("Train with id " + trainId + " not found.");
         }
         Train train = optionalTrain.get();
-        if (train.getPassengerWagons().size() >= 20) {
+        if (train.getPassengerWagons().size() + train.getMailWagons().size() + train.getRestaurantWagons().size() >= 20) {
             throw new MaxWagonLimitExceededException("Maximum number of wagons (20) for this train exceeded.");
         }
 

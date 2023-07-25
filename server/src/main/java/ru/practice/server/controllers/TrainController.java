@@ -1,4 +1,4 @@
-package ru.practice.server.recource;
+package ru.practice.server.controllers;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
