@@ -1,13 +1,10 @@
 package ru.practice.server.model.wagon.freight;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.practice.server.model.trains.Train;
-import ru.practice.server.model.trains.type.FreightTrain;
-
 import javax.persistence.*;
 import java.util.UUID;
 
@@ -33,14 +30,11 @@ public abstract class FreightWagon {
     @JsonIgnoreProperties("train")  // Игнорируем поле "train" во избежание циклической ссылки
     private Train train;
 
-    protected abstract double calculateVolume();
     // Конструктор для установки константных размеров вагона
     public FreightWagon(double length, double width, double height) {
         this.length = length;
         this.width = width;
         this.height = height;
-        this.volume = calculateVolume();
+        this.volume = length * width * height;
     }
-
-
 }

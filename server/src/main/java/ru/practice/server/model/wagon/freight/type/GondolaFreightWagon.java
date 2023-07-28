@@ -1,8 +1,6 @@
 package ru.practice.server.model.wagon.freight.type;
 
-import lombok.Data;
 import ru.practice.server.model.wagon.freight.FreightWagon;
-
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
@@ -16,9 +14,5 @@ public class GondolaFreightWagon extends FreightWagon {
 
     public GondolaFreightWagon() {
         super(GONDOLA_LENGTH, GONDOLA_WIDTH, GONDOLA_HEIGHT);
-    }
-    @Override
-    protected double calculateVolume() {
-        return length * width * height;
     }
 }
