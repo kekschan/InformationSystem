@@ -21,28 +21,45 @@ public class TrainService {
         this.trainRepository = trainRepository;
     }
 
-    public void addTrain(TrainDto trainDto) throws TrainAlreadyExistsException {
+    public void addTrain(TrainDto trainDto) throws TrainAlreadyExistsException, IllegalArgumentException {
         String trainName = trainDto.getTrainName();
 
         if (trainRepository.existsByTrainName(trainName)) {
             throw new TrainAlreadyExistsException("Поезд с таким названием " + trainName + " уже существует.");
         }
 
+        String trainType = trainDto.getTrainType();
         Train train;
-        if ("freight".equalsIgnoreCase(trainDto.getTrainType())) {
+        if ("freight".equalsIgnoreCase(trainType)) {
             train = new FreightTrain();
-        } else if ("passenger".equalsIgnoreCase(trainDto.getTrainType())) {
+        } else if ("passenger".equalsIgnoreCase(trainType)) {
             train = new PassengerTrain();
         } else {
             throw new IllegalArgumentException("Неверный тип поезда. Требуется указать 'freight' или 'passenger'.");
         }
 
-        train.setStartingPoint(trainDto.getStartingPoint());
-        train.setFinishPoint(trainDto.getFinishPoint());
-        train.setNumberOfWagons(trainDto.getNumberOfWagons());
+        String startingPoint = trainDto.getStartingPoint();
+        if (startingPoint == null || startingPoint.isEmpty()) {
+            throw new IllegalArgumentException("Требуется указать стартовую точку поезда.");
+        }
+        train.setStartingPoint(startingPoint);
+
+        String finishPoint = trainDto.getFinishPoint();
+        if (finishPoint == null || finishPoint.isEmpty()) {
+            throw new IllegalArgumentException("Требуется указать конечную точку поезда.");
+        }
+        train.setFinishPoint(finishPoint);
+
+        Integer numberOfWagons = trainDto.getNumberOfWagons();
+        if (numberOfWagons == null || numberOfWagons <= 0) {
+            throw new IllegalArgumentException("Количество вагонов должно быть больше нуля.");
+        }
+        train.setNumberOfWagons(numberOfWagons);
+
         train.setTrainName(trainName);
         trainRepository.save(train);
     }
+
 
     public List<Train> getAllTrains() {
         return trainRepository.findAll();
