@@ -32,11 +32,11 @@ public abstract class Train {
     private String finishPoint;
     private Integer numberOfWagons;//пользователь с клиента задает количество вагонов в поезде
 
-    @OneToMany(mappedBy = "train")
+    @OneToMany(mappedBy = "train", cascade = CascadeType.REMOVE)
     @JsonIgnoreProperties("train")  // Игнорируем поле "train" во избежание циклической ссылки
     private List<FreightWagon> freightWagon = new ArrayList<>();
 
-    @OneToMany(mappedBy = "train")
+    @OneToMany(mappedBy = "train", cascade = CascadeType.REMOVE)
     @JsonIgnoreProperties("train")  // Игнорируем поле "train" во избежание циклической ссылки
     private List<PeopleWagon> peopleWagons = new ArrayList<>();
 
