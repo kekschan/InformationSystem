@@ -17,4 +17,9 @@ public class EnvelopeLetters extends MailWagonWagon {
     public EnvelopeLetters() {
         super(SEATING_CAPACITY, TABLES, TOILETS, HAS_VENTILATION, ACCOMMODATION);
     }
+
+    @Override
+    public String getWagonType() {
+        return "envelopeLetters";
+    }
 }

@@ -17,4 +17,9 @@ public class ReservedSeat extends PassengerWagon {
     public ReservedSeat() {
         super(SEATING_CAPACITY, TABLES, TOILETS, HAS_VENTILATION, BEDS);
     }
+
+    @Override
+    public String getWagonType() {
+        return "reservedSeat";
+    }
 }

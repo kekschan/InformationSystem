@@ -17,4 +17,9 @@ public class BaggageLetters extends MailWagonWagon {
     public BaggageLetters() {
         super(SEATING_CAPACITY, TABLES, TOILETS, HAS_VENTILATION, ACCOMMODATION);
     }
+
+    @Override
+    public String getWagonType() {
+        return "baggageLetters";
+    }
 }

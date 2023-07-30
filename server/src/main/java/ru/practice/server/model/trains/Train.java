@@ -1,5 +1,6 @@
 package ru.practice.server.model.trains;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -31,5 +32,12 @@ public abstract class Train {
     private String finishPoint;
     private Integer numberOfWagons;//пользователь с клиента задает количество вагонов в поезде
 
+    @OneToMany(mappedBy = "train")
+    @JsonIgnoreProperties("train")  // Игнорируем поле "train" во избежание циклической ссылки
+    private List<FreightWagon> freightWagon = new ArrayList<>();
+
+    @OneToMany(mappedBy = "train")
+    @JsonIgnoreProperties("train")  // Игнорируем поле "train" во избежание циклической ссылки
+    private List<PeopleWagon> peopleWagons = new ArrayList<>();
 
 }

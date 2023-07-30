@@ -17,4 +17,8 @@ public class FlatcarFreightWagon extends FreightWagon {
     }
 
 
+    @Override
+    public String getWagonType() {
+        return "flatcar";
+    }
 }

@@ -18,4 +18,9 @@ public class Bar extends RestaurantWagonWagon {
     public Bar() {
         super(SEATING_CAPACITY, TABLES, TOILETS, HAS_VENTILATION, HAS_ALCOHOL);
     }
+
+    @Override
+    public String getWagonType() {
+        return "bar";
+    }
 }

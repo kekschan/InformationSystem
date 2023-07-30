@@ -2,7 +2,7 @@ package ru.practice.server.exception;
 
 public class TrainAlreadyExistsException extends Exception {
     public TrainAlreadyExistsException() {
-        super("Train not found.");
+        super("Поезд не найден.");
     }
 
     public TrainAlreadyExistsException(String message) {

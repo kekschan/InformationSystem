@@ -18,4 +18,9 @@ public class StandartRestaurant extends RestaurantWagonWagon {
     public StandartRestaurant() {
         super(SEATING_CAPACITY, TABLES, TOILETS, HAS_VENTILATION, HAS_ALCOHOL);
     }
+
+    @Override
+    public String getWagonType() {
+        return "standartRestaurant";
+    }
 }

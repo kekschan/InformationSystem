@@ -15,4 +15,9 @@ public class CoveredFreightWagon extends FreightWagon {
     public CoveredFreightWagon() {
         super(COVERED_LENGTH, COVERED_WIDTH, COVERED_HEIGHT);
     }
+
+    @Override
+    public String getWagonType() {
+        return "covered";
+    }
 }

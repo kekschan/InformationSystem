@@ -2,7 +2,7 @@ package ru.practice.server.exception;
 
 public class TrainNotFoundException extends Exception {
     public TrainNotFoundException() {
-        super("Train not found.");
+        super("Поезд не найден.");
     }
 
     public TrainNotFoundException(String message) {

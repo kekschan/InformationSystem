@@ -15,4 +15,9 @@ public class TankFreightWagon extends FreightWagon {
     public TankFreightWagon() {
         super(TANK_LENGTH, TANK_WIDTH, TANK_HEIGHT);
     }
+
+    @Override
+    public String getWagonType() {
+        return "tank";
+    }
 }

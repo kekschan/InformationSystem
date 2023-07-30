@@ -6,7 +6,7 @@ import javax.persistence.Entity;
 
 @Entity
 @DiscriminatorValue("coupe")
-public class Сoupe extends PassengerWagon {
+public class Coupe extends PassengerWagon {
 
     private static final int SEATING_CAPACITY = 120;
     private static final int TABLES = 20;
@@ -14,7 +14,12 @@ public class Сoupe extends PassengerWagon {
     private static final boolean TOILETS = true;
     private static final int BEDS = 40;
 
-    public Сoupe() {
+    public Coupe() {
         super(SEATING_CAPACITY,TABLES,TOILETS,HAS_VENTILATION,BEDS);
+    }
+
+    @Override
+    public String getWagonType() {
+        return "coupe";
     }
 }

@@ -17,4 +17,9 @@ public class Lux extends PassengerWagon {
     public Lux() {
         super(SEATING_CAPACITY, TABLES, TOILETS, HAS_VENTILATION, BEDS);
     }
+
+    @Override
+    public String getWagonType() {
+        return "lux";
+    }
 }

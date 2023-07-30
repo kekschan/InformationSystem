@@ -15,4 +15,9 @@ public class GondolaFreightWagon extends FreightWagon {
     public GondolaFreightWagon() {
         super(GONDOLA_LENGTH, GONDOLA_WIDTH, GONDOLA_HEIGHT);
     }
+
+    @Override
+    public String getWagonType() {
+        return "gondola";
+    }
 }

@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.practice.server.model.trains.Train;
 import ru.practice.server.model.trains.type.FreightTrain;
+import ru.practice.server.model.wagon.Wagon;
 
 import javax.persistence.*;
 import java.util.UUID;
@@ -16,23 +17,23 @@ import java.util.UUID;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "wagon_type", discriminatorType = DiscriminatorType.STRING)
-public abstract class FreightWagon {
+public abstract class FreightWagon extends Wagon {
 
     @Id
     @GeneratedValue
     private UUID id;
 
-    protected double volume;
-    protected double length;
-    protected double width;
-    protected double height;
+    protected Double volume;
+    protected Double length;
+    protected Double width;
+    protected Double height;
 
     @ManyToOne
     @JoinColumn(name = "train_id")
-    /*@JsonIgnoreProperties("train")*/  // Игнорируем поле "train" во избежание циклической ссылки
-    private FreightTrain freightTrain;
+    @JsonIgnoreProperties("freightWagon")  // Игнорируем поле "train" во избежание циклической ссылки
+    private Train train;
 
-    public FreightWagon(double length, double width, double height) {
+    public FreightWagon(Double length, Double width, Double height) {
         this.length = length;
         this.width = width;
         this.height = height;
