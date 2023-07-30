@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.practice.server.model.trains.Train;
+import ru.practice.server.model.trains.type.FreightTrain;
+
 import javax.persistence.*;
 import java.util.UUID;
 
@@ -27,10 +29,9 @@ public abstract class FreightWagon {
 
     @ManyToOne
     @JoinColumn(name = "train_id")
-    @JsonIgnoreProperties("train")  // Игнорируем поле "train" во избежание циклической ссылки
-    private Train train;
+    /*@JsonIgnoreProperties("train")*/  // Игнорируем поле "train" во избежание циклической ссылки
+    private FreightTrain freightTrain;
 
-    // Конструктор для установки константных размеров вагона
     public FreightWagon(double length, double width, double height) {
         this.length = length;
         this.width = width;

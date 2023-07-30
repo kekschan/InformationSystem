@@ -2,11 +2,10 @@ package ru.practice.server.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import ru.practice.server.model.trains.Train;
-
+import ru.practice.server.model.wagon.passenger.PeopleWagon;
 import java.util.UUID;
 
 @Repository
-public interface TrainRepository extends JpaRepository<Train, UUID> {
-    boolean existsByTrainName(String trainName);
+public interface PeopleWagonRepository extends JpaRepository<PeopleWagon, UUID> {
+
 }

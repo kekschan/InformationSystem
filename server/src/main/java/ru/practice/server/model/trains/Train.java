@@ -1,13 +1,11 @@
 package ru.practice.server.model.trains;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.practice.server.model.wagon.freight.FreightWagon;
-import ru.practice.server.model.wagon.passenger.WagonForPeople;
-import ru.practice.server.model.wagon.passenger.exemplar.mailWagon.MailWagon;
-import ru.practice.server.model.wagon.passenger.exemplar.passengerWagon.PassengerWagon;
-import ru.practice.server.model.wagon.passenger.exemplar.restaurantWagon.RestaurantWagon;
+import ru.practice.server.model.wagon.passenger.PeopleWagon;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -25,22 +23,13 @@ public abstract class Train {
     @Id
     @GeneratedValue
     private UUID id;
-    private String trainNumber;
+    @JsonProperty("trainType")
+    public abstract String getTrainType();
 
-    @OneToMany(mappedBy = "train")
-    @JsonIgnoreProperties("train")  // Игнорируем поле "train" во избежание циклической ссылки
-    private List<FreightWagon> freightWagon = new ArrayList<>();
+    private String trainName;
+    private String startingPoint;
+    private String finishPoint;
+    private Integer numberOfWagons;//пользователь с клиента задает количество вагонов в поезде
 
-    @OneToMany(mappedBy = "train")
-    @JsonIgnoreProperties("train")  // Игнорируем поле "train" во избежание циклической ссылки
-    private List<MailWagon> mailWagons = new ArrayList<>();
-
-    @OneToMany(mappedBy = "train")
-    @JsonIgnoreProperties("train")  // Игнорируем поле "train" во избежание циклической ссылки
-    private List<PassengerWagon> passengerWagons = new ArrayList<>();
-
-    @OneToMany(mappedBy = "train")
-    @JsonIgnoreProperties("train")  // Игнорируем поле "train" во избежание циклической ссылки
-    private List<RestaurantWagon> restaurantWagons = new ArrayList<>();
 
 }

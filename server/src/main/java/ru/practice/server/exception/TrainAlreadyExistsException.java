@@ -1,6 +1,6 @@
 package ru.practice.server.exception;
 
-public class TrainAlreadyExistsException extends RuntimeException{
+public class TrainAlreadyExistsException extends Exception {
     public TrainAlreadyExistsException() {
         super("Train not found.");
     }
