@@ -11,12 +11,11 @@ import ru.practice.server.exception.WagonNotFoundException;
 import ru.practice.server.model.wagon.freight.FreightWagon;
 import ru.practice.server.model.wagon.freight.dto.FreightWagonDto;
 import ru.practice.server.service.FreightWagonService;
-
 import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/freight-train")
+@RequestMapping("/freight")
 @Tag(name = "Грузовые вагоны")
 public class FreightWagonController {
     private final FreightWagonService freightWagonService;
@@ -25,7 +24,7 @@ public class FreightWagonController {
         this.freightWagonService = freightWagonService;
     }
 
-    @PostMapping("/{trainId}")
+    @PostMapping("/{trainId}/add")
     @Operation(summary = "Добавление вагона", description = "В json требуется указать wagonType = ('flatcar', 'gondola', 'covered' или 'tank')")
     public ResponseEntity<String> addFreightWagonToTrain(@PathVariable UUID trainId, @RequestBody FreightWagonDto wagonDto) throws MaxWagonLimitExceededException, TrainNotFoundException {
         try {

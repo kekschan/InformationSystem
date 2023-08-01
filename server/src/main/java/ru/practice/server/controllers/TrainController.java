@@ -25,7 +25,7 @@ public class TrainController {
         this.trainService = trainService;
     }
 
-    @PostMapping
+    @PostMapping("/add")
     @Operation(summary = "Добавление поезда", description = "В json требуется указать trainType = ('freight' или 'passenger')")
     public ResponseEntity<String> addTrain(@RequestBody TrainDto trainDto) {
         try {

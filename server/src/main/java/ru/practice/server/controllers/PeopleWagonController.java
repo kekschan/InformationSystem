@@ -8,16 +8,14 @@ import org.springframework.web.bind.annotation.*;
 import ru.practice.server.exception.MaxWagonLimitExceededException;
 import ru.practice.server.exception.TrainNotFoundException;
 import ru.practice.server.exception.WagonNotFoundException;
-import ru.practice.server.model.wagon.freight.FreightWagon;
 import ru.practice.server.model.wagon.passenger.PeopleWagon;
 import ru.practice.server.model.wagon.passenger.dto.PeopleWagonDto;
 import ru.practice.server.service.PeopleWagonService;
-
 import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/passenger-train")
+@RequestMapping("/passenger")
 @Tag(name = "Пассажирские вагоны")
 public class PeopleWagonController {
 
@@ -27,7 +25,7 @@ public class PeopleWagonController {
         this.peopleWagonService = peopleWagonService;
     }
 
-    @PostMapping("/{trainId}")
+    @PostMapping("/{trainId}/add")
     @Operation(summary = "Добавление вагона", description = "В json требуется указать wagonType = ('baggageLetters', 'lux', 'reservedSeat', 'coupe', 'bar', 'standartRestaurant', 'envelopeLetters'.)")
     public ResponseEntity<String> addFreightWagonToTrain(@PathVariable UUID trainId, @RequestBody PeopleWagonDto wagonDto) throws MaxWagonLimitExceededException, TrainNotFoundException {
         try {
@@ -41,7 +39,7 @@ public class PeopleWagonController {
     }
 
     @GetMapping("/{trainId}")
-    @Operation(summary = "Получение всех грузовых вагонов по Id поезда")
+    @Operation(summary = "Получение всех пассажирских вагонов по Id поезда")
     public ResponseEntity<List<PeopleWagon>> getAllWagonsForTrain(@PathVariable UUID trainId) throws TrainNotFoundException {
         try {
             List<PeopleWagon> wagons = peopleWagonService.getAllWagonsForTrain(trainId);
@@ -49,7 +47,6 @@ public class PeopleWagonController {
         } catch (TrainNotFoundException e) {
             return ResponseEntity.notFound().build();
         }
-
     }
 
     @DeleteMapping("/{trainId}/{wagonId}")
