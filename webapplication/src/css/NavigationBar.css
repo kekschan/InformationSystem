@@ -21,6 +21,7 @@
     position: relative; /* Устанавливаем позиционирование для разделителя */
     display: flex; /* Делаем ссылки flex-элементами, чтобы вертикальный разделитель работал */
     align-items: center; /* Выравниваем содержимое ссылок по вертикали */
+    text-align: center;
 }
 
 .spaced-links .nav-link:hover {
