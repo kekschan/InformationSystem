@@ -1,15 +1,17 @@
-import logo from './logo.svg';
 import './App.css';
+import {BrowserRouter as Router} from 'react-router-dom'
+import { Container, Row} from "react-bootstrap";
+import NavigationBar from "./components/NavigationBar";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+export default function App() {
+    return (
+        <Router>
+            <NavigationBar/>
+            <Container >
+                <Row>
 
-      </header>
-    </div>
-  );
+                </Row>
+            </Container>
+        </Router>
+    );
 }
-
-export default App;
