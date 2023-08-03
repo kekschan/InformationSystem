@@ -16,6 +16,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/passenger")
+@CrossOrigin(origins = "http://localhost:3000")
 @Tag(name = "Пассажирские вагоны")
 public class PeopleWagonController {
 

@@ -9,7 +9,7 @@ export default class NavigationBar extends Component {
                 <Container>
                     <Navbar.Collapse id="navbar-nav">
                         <Nav className="mx-auto spaced-links">
-                            <Nav.Link href="/">Главная</Nav.Link>
+                            <Nav.Link href="/train">Главная</Nav.Link>
                             <Nav.Link href="/inf-model">Информационная модель</Nav.Link>
                             <Nav.Link href="/static">Статистика</Nav.Link>
                         </Nav>

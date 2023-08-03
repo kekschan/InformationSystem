@@ -16,6 +16,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/freight")
+@CrossOrigin(origins = "http://localhost:3000")
 @Tag(name = "Грузовые вагоны")
 public class FreightWagonController {
     private final FreightWagonService freightWagonService;
