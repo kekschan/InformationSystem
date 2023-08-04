@@ -40,19 +40,17 @@ export default class Train extends Component {
         return (
             <body  style={styles.cardContainer}>
                 <div >
-                    <div style={{ display: 'inline-block', marginBlockEnd: '15px', fontSize: '24px', lineHeight: '1.5' }}>
+                    <div style={{ display: 'inline-block', marginBlockEnd: '15px', lineHeight: '1.5' }}>
                         <Card className="custom-card">
                             <Card.Header as="h4">
                             <div className="text-center">
                                 <div style={{marginBlockEnd: '5px'}}>Добро пожаловать на страницу системного администрирования.</div>
-                                <div>Здесь вы можете добавлять, удалять и изменять поезда на сервере. Удачной вам работы!</div>
+                                <div style={{marginBlockEnd: '20px'}}>Здесь вы можете добавлять, удалять и изменять поезда на сервере. Удачной вам работы!</div>
+                                <div className='text-end'><Button variant="success">Добавить</Button></div>
                             </div>
                             </Card.Header>
-                            <Card.Footer className="text-end">
-                            <Button variant="success">Добавить</Button>
-                            </Card.Footer>
                         </Card>
-                        </div>
+                    </div>
                     <div>
                         {this.state.train.length === 0 ?
                             (<div className="fade-in-card">
@@ -64,8 +62,8 @@ export default class Train extends Component {
                                     </Card.Body>
                                 </Card>
                             </div>) 
-                            : (
-                            <div className="fade-in-card">
+                            : 
+                            (<div className="fade-in-card">
                                 <Card className="red-border">
                                         <Card.Header as="h5" className="card-header-container">
                                             <div className="text-start">
@@ -99,19 +97,17 @@ export default class Train extends Component {
                                             </Card.Text>
                                         </Card.Body>
                                         <Card.Footer className="card-footer-container">
-                                            <div className="text-start">
-                                                <Button variant="outline-danger light"className="custom-btn">Подробнее</Button>
-                                            </div>
-                                            <div className="text-end">
-                                                <Button variant="danger">Удалить</Button>
-                                                <Button variant="info">Изменить</Button>
-                                            </div>
-                                        </Card.Footer>
-                                    </Card>
-                                </div>
-                             )
+                                        <div className="text-start">
+                                            <Button className="custom-btn">Подробнее</Button>
+                                        </div>
+                                        <div className="text-end">
+                                            <Button className="custom-btn" style={{ marginRight: '3px'}}>Удалить</Button>
+                                            <Button className="custom-btn">Изменить</Button>
+                                        </div>
+                                    </Card.Footer>
+                                 </Card>
+                            </div>)
                         }
-            
                     </div>
                 </div>
             </body>

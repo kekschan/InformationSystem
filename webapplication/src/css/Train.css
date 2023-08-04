@@ -45,6 +45,7 @@
   }
 
   .custom-card {
+    animation: fade-in 1s ease-in-out;
     border-radius: 0; /* Removes border radius to make corners sharp */
     background-color: white; /* Set the background color to white */
   }
