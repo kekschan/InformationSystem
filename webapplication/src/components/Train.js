@@ -27,12 +27,22 @@ export default class Train extends Component {
     }
 
     render() {
+
+        const styles = {
+            cardContainer: {
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center'
+                
+            },
+        };
+
         return (
-            <body>
+            <body  style={styles.cardContainer}>
             {/*сделать по-середине*/}
-            <div>
-            {this.state.train.length === 0 ?
-                <div className="fade-in-card">
+            <div >
+             {this.state.train.length === 0 ?
+                (<div className="fade-in-card" style={{width: '60rem'}}>
                     <Card className="red-border">
                         <Card.Body>
                             <div className="text-center">
@@ -40,9 +50,9 @@ export default class Train extends Component {
                             </div>
                         </Card.Body>
                     </Card>
-                </div>
-                :
-                <div className="fade-in-card">
+                </div>)
+            : (
+                <div className="fade-in-card" style={{width: '1000rem'}}>
                     <Card className="red-border">
                         <Card.Header as="h5" className="card-header-container">
                             <div className="text-start">
@@ -55,9 +65,9 @@ export default class Train extends Component {
                                 <div style={{display: 'inline-block'}}>Лондон</div>
                             </div>
                         </Card.Header>
-                        <Card.Body>
+                        <Card.Body style={{height: '140px'}}>
                             <Card.Text> {/*вставить условие, если "trainType": "freight", то выводить одно */}
-                                <img src={passengerImage} alt="Passenger"  style={{ width: '740px', height: '65px' }}/>
+                                <img src={passengerImage} alt="Passenger"  style={{width: '740px', height: '65px' }}/>
                                 {/*вставить количество каждых из типов вагонов*/}
                             </Card.Text>
                         </Card.Body>
@@ -67,11 +77,11 @@ export default class Train extends Component {
                         </Card.Footer>
                     </Card>
                 </div>
+            )
             }
+        
             </div>
             </body>
-
-
         );
     }
 }

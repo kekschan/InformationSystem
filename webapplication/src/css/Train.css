@@ -15,7 +15,8 @@
 
 .fade-in-card {
     animation: fade-in 1s ease-in-out;
-    max-width: 1000px; /* Установка максимальной ширины */
+    max-width: 1100px; /* Установка максимальной ширины */
+    height: 700px;
 }
 
 .card-header-container {
