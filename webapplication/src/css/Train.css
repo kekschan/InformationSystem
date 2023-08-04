@@ -1,0 +1,34 @@
+/* Ваш CSS стиль */
+.red-border {
+    border: 1px solid rgb(195, 27, 28);
+}
+
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.fade-in-card {
+    animation: fade-in 1s ease-in-out;
+    max-width: 1000px; /* Установка максимальной ширины */
+}
+
+.card-header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 40px;
+}
+
+/* Новый стиль для Card.Footer */
+.card-footer-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 60px;
+}
