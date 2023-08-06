@@ -191,8 +191,7 @@ export default class Train extends Component {
                     <Card className="custom-card">
                         <Card.Header as="h4">
                             <div className="text-center">
-                                <div style={{marginBlockEnd: '5px'}}>Добро пожаловать на страницу системного
-                                    администрирования.
+                                <div style={{marginBlockEnd: '5px'}}>Добро пожаловать на страницу информационной модели.
                                 </div>
                                 <div style={{marginBlockEnd: '20px'}}>Здесь вы можете добавлять, удалять и изменять
                                     поезда на сервере. Удачной вам работы!

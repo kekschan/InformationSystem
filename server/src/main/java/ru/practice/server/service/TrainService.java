@@ -9,6 +9,7 @@ import ru.practice.server.model.trains.type.FreightTrain;
 import ru.practice.server.model.trains.type.PassengerTrain;
 import ru.practice.server.repository.TrainRepository;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -62,7 +63,9 @@ public class TrainService {
 
 
     public List<Train> getAllTrains() {
-        return trainRepository.findAll();
+        List<Train> trains = trainRepository.findAll();
+        Collections.reverse(trains);
+        return trains;
     }
 
     public void deleteTrain(UUID id) throws TrainNotFoundException {
@@ -80,7 +83,7 @@ public class TrainService {
         return optionalTrain.get();
     }
 
-    public void updateTrain(UUID id, TrainDto trainDto) throws TrainNotFoundException {
+    public void updateTrain(UUID id, TrainDto trainDto) throws TrainNotFoundException, TrainAlreadyExistsException {
         Optional<Train> optionalTrain = trainRepository.findById(id);
         if (optionalTrain.isEmpty()) {
             throw new TrainNotFoundException("Поезд с id " + id + " не найден.");
@@ -88,10 +91,12 @@ public class TrainService {
 
         Train train = optionalTrain.get();
 
-        //временная проверка на нули, далее будем реализовывать через аннотацию @Validation в модели
-        // Проверяем, что значения в TrainDto не являются нулевыми, и только тогда обновляем поля
-        if (trainDto.getTrainName() != null) {
-            train.setTrainName(trainDto.getTrainName());
+        String newTrainName = trainDto.getTrainName();
+        if (newTrainName != null && !newTrainName.equals(train.getTrainName())) {
+            if (trainRepository.existsByTrainName(newTrainName)) {
+                throw new TrainAlreadyExistsException("Поезд с таким названием " + newTrainName + " уже существует.");
+            }
+            train.setTrainName(newTrainName);
         }
 
         if (trainDto.getStartingPoint() != null) {
@@ -108,4 +113,6 @@ public class TrainService {
 
         trainRepository.save(train);
     }
+
+
 }
