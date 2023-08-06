@@ -4,6 +4,7 @@ import {Col, Container, Row} from "react-bootstrap";
 import NavigationBar from "./components/NavigationBar";
 import Footer from "./components/Footer";
 import Train from "./components/Train";
+import Wagon from "./components/Wagon";
 
 export default function App() {
 
@@ -11,8 +12,6 @@ export default function App() {
         marginTop: "20px",
         marginBlockEnd: "45px"
     };
-
-
 
     return (
         <Router>
@@ -23,6 +22,7 @@ export default function App() {
                         <Col lg={12} style={marginBlock}>
                             <Route path={"/train"} exact component={Train}/>
                             <Route path={"/about"} exact component={Train}/>
+                            <Route exact path="/:trainType/:id" component={Wagon} />
                         </Col>
                     </Switch>
                 </Row>

@@ -174,6 +174,10 @@ export default class Train extends Component {
         });
     };
 
+    handleButtonClick = (trainId, trainType) => {
+        this.props.history.push(`/${trainType}/${trainId}`);
+    };
+
     render() {
         const styles = {
             cardContainer: {
@@ -394,7 +398,11 @@ export default class Train extends Component {
                                     </Card.Body>
                                     <Card.Footer key={train.id} className="card-footer-container">
                                         <div className="text-start">
-                                            <Button className="custom-btn">Подробнее</Button>
+                                            <div className="text-start">
+                                                <Button className="custom-btn" onClick={() => this.handleButtonClick(train.id, train.trainType)}>
+                                                    Подробнее
+                                                </Button>
+                                            </div>
                                         </div>
                                         <div className="text-end">
                                             <div className="text-end">
