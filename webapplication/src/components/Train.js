@@ -56,12 +56,12 @@ export default class Train extends Component {
 
     // Закрыть модальное окно
     handleModalClose = () => {
-        this.setState({ showModal: false });
+        this.setState({showModal: false});
     };
 
     // Обработка изменений в полях ввода формы
     handleChange = (event) => {
-        const { name, value } = event.target;
+        const {name, value} = event.target;
         this.setState(prevState => ({
             trainData: {
                 ...prevState.trainData,
@@ -82,7 +82,7 @@ export default class Train extends Component {
     // Обновление списка поездов с анимацией
     updateTrainListWithAnimation = () => {
         // Добавить класс show для плавного появления модального окна
-        this.setState({ showModal: true });
+        this.setState({showModal: true});
 
         // Задержка, чтобы показать модальное окно с анимацией
         setTimeout(() => {
@@ -91,21 +91,37 @@ export default class Train extends Component {
         }, 200); // Измените значение задержки по вашему усмотрению
     };
 
-    // Обработка отправки формы
     handleSubmit = (event) => {
         event.preventDefault();
-        // Отправка POST-запроса на сервер
-        axios.post("http://localhost:8080/train/add", this.state.trainData)
-            .then(response => {
-                // Обработка успешного ответа, если необходимо
-                console.log(response.data);
-                // Обновление списка поездов с анимацией
-                this.updateTrainListWithAnimation();
-            })
-            .catch(error => {
-                // Обработка ошибок при отправке запроса
-                console.error('Error:', error);
-            });
+        const {trainId, ...data} = this.state.trainData;
+
+        if (trainId) {
+            // If trainId exists, perform a PUT request for updating the train
+            axios
+                .put(`http://localhost:8080/train/${trainId}`, data)
+                .then((response) => {
+                    // Handle successful response, if needed
+                    console.log(response.data);
+                    this.updateTrainListWithAnimation();
+                })
+                .catch((error) => {
+                    // Handle errors on PUT request
+                    console.error('Error:', error);
+                });
+        } else {
+            // If trainId doesn't exist, perform a POST request for creating a new train
+            axios
+                .post('http://localhost:8080/train/add', data)
+                .then((response) => {
+                    // Handle successful response, if needed
+                    console.log(response.data);
+                    this.updateTrainListWithAnimation();
+                })
+                .catch((error) => {
+                    // Handle errors on POST request
+                    console.error('Error:', error);
+                });
+        }
     };
 
     getWagonTypeFreight(wagonType) {
@@ -136,7 +152,7 @@ export default class Train extends Component {
         axios.get("http://localhost:8080/train")
             .then(response => response.data)
             .then((data) => {
-                this.setState({ train: data });
+                this.setState({train: data});
             });
     }
 
@@ -144,7 +160,19 @@ export default class Train extends Component {
         this.findAllTrain();
     }
 
-
+    handleEditTrain = (train) => {
+        this.setState({
+            showModal: true,
+            trainData: {
+                trainId: train.id,
+                trainName: train.trainName,
+                trainType: train.trainType,
+                startingPoint: train.startingPoint,
+                finishPoint: train.finishPoint,
+                numberOfWagons: train.numberOfWagons,
+            },
+        });
+    };
 
     render() {
         const styles = {
@@ -159,22 +187,27 @@ export default class Train extends Component {
         return (
             <body style={styles.cardContainer}>
             <div>
-                <div style={{ display: 'inline-block', marginBlockEnd: '15px', lineHeight: '1.5' }}>
+                <div style={{display: 'inline-block', marginBlockEnd: '15px', lineHeight: '1.5'}}>
                     <Card className="custom-card">
                         <Card.Header as="h4">
                             <div className="text-center">
-                                <div style={{ marginBlockEnd: '5px' }}>Добро пожаловать на страницу системного администрирования.</div>
-                                <div style={{ marginBlockEnd: '20px' }}>Здесь вы можете добавлять, удалять и изменять поезда на сервере. Удачной вам работы!</div>
-                                <div className='text-end'><Button variant="success" onClick={this.handleModalOpen}>Добавить</Button></div>
+                                <div style={{marginBlockEnd: '5px'}}>Добро пожаловать на страницу системного
+                                    администрирования.
+                                </div>
+                                <div style={{marginBlockEnd: '20px'}}>Здесь вы можете добавлять, удалять и изменять
+                                    поезда на сервере. Удачной вам работы!
+                                </div>
+                                <div className='text-end'><Button variant="success"
+                                                                  onClick={this.handleModalOpen}>Добавить</Button></div>
                             </div>
                         </Card.Header>
                     </Card>
                 </div>
                 {/* Модальное окно */}
-                <Modal show={this.state.showModal} onHide={this.handleModalClose} >
+                <Modal show={this.state.showModal} onHide={this.handleModalClose}>
                     <Modal.Header closeButton>
                         <Modal.Title>
-                            Добавить поезд
+                            {this.state.trainData.trainId ? "Обновить поезд" : "Добавить поезд"}
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
@@ -190,26 +223,33 @@ export default class Train extends Component {
                                               onChange={this.handleChange}
                                               className="form-control-select"/>
                             </Form.Group>
-                            <Form.Group controlId="trainType" className="form-group-container">
-                                <Form.Label className="form-label">Тип поезда</Form.Label>
-                                <div>
-                                    <ToggleButtonGroup
-                                        type="radio"
-                                        name="trainType"
-                                        value={this.state.trainData.trainType}
-                                        onChange={this.handleTrainTypeChange} // Use a separate function for trainType change
-                                        className="custom-toggle-button-group"
-                                        defaultValue={"passenger"}
-                                    >
-                                        <ToggleButton  value="passenger" id={"passenger"} variant="danger" className="form-control-select custom-toggle-button">
-                                            Пассажирский
-                                        </ToggleButton>
-                                        <ToggleButton value="freight" id={"freight"} variant="danger" className="form-control-select custom-toggle-button">
-                                            Грузовой
-                                        </ToggleButton>
-                                    </ToggleButtonGroup>
-                                </div>
-                            </Form.Group>
+
+
+                            {!this.state.trainData.trainId && (
+                                <Form.Group controlId="trainType" className="form-group-container">
+                                    <Form.Label className="form-label">Тип поезда</Form.Label>
+                                    <div>
+                                        <ToggleButtonGroup
+                                            type="radio"
+                                            name="trainType"
+                                            value={this.state.trainData.trainType}
+                                            onChange={this.handleTrainTypeChange}
+                                            className="custom-toggle-button-group"
+                                            defaultValue={"passenger"}
+                                        >
+                                            <ToggleButton value="passenger" id={"passenger"} variant="danger"
+                                                          className="form-control-select custom-toggle-button">
+                                                Пассажирский
+                                            </ToggleButton>
+                                            <ToggleButton value="freight" id={"freight"} variant="danger"
+                                                          className="form-control-select custom-toggle-button">
+                                                Грузовой
+                                            </ToggleButton>
+                                        </ToggleButtonGroup>
+                                    </div>
+                                </Form.Group>
+                            )}
+
                             <Form.Group controlId="startingPoint" style={{marginBlockEnd: "10px"}}>
                                 <Form.Label style={{marginLeft: "8px", marginBlockEnd: "2px"}}>
                                     Стартовая точка
@@ -244,10 +284,10 @@ export default class Train extends Component {
                                               className="form-control-select"/>
                             </Form.Group>
                             <div className={"text-end"} style={{marginBlockEnd: "-10px", marginTop: "15px"}}>
-                            <Button variant="primary"
-                                    type="submit">
-                                Отправить
-                            </Button>
+                                <Button variant="primary"
+                                        type="submit">
+                                    Отправить
+                                </Button>
                             </div>
                         </Form>
                     </Modal.Body>
@@ -360,8 +400,10 @@ export default class Train extends Component {
                                         <div className="text-end">
                                             <div className="text-end">
                                                 {/* Кнопка для удаления поезда */}
-                                                <Button className="custom-btn" style={{ marginRight: '3px' }} onClick={() => this.handleDeleteTrain(train.id)}>Удалить</Button>
-                                                <Button className="custom-btn">Изменить</Button>
+                                                <Button className="custom-btn" style={{marginRight: '3px'}}
+                                                        onClick={() => this.handleDeleteTrain(train.id)}>Удалить</Button>
+                                                <Button className="custom-btn"
+                                                        onClick={() => this.handleEditTrain(train)}>Изменить</Button>
                                             </div>
                                         </div>
                                     </Card.Footer>
