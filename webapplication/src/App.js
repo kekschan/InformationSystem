@@ -7,9 +7,11 @@ import Train from "./components/Train";
 
 export default function App() {
 
-    const marginTop = {
-        marginTop: "20px"
+    const marginBlock = {
+        marginTop: "20px",
+        marginBlockEnd: "45px"
     };
+
 
 
     return (
@@ -18,7 +20,7 @@ export default function App() {
             <Container>
                 <Row>
                     <Switch>
-                        <Col lg={12} style={marginTop}>
+                        <Col lg={12} style={marginBlock}>
                             <Route path={"/train"} exact component={Train}/>
                             <Route path={"/about"} exact component={Train}/>
                         </Col>
