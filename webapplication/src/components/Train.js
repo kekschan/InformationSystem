@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Button, Card, Row, Col, Container, Modal, Form} from 'react-bootstrap';
+import {Button, Card, Row, Col, Container, Modal, Form, ToggleButtonGroup, ToggleButton} from 'react-bootstrap';
 import axios from "axios";
 import '../css/Train.css';
 import passengerImage from '../resources/passenger.jpg';
@@ -42,7 +42,16 @@ export default class Train extends Component {
 
     // Открыть модальное окно
     handleModalOpen = () => {
-        this.setState({ showModal: true });
+        this.setState({
+            showModal: true,
+            trainData: { // Reset trainData to empty state
+                trainName: "",
+                trainType: "",
+                startingPoint: "",
+                finishPoint: "",
+                numberOfWagons: 0,
+            }
+        });
     };
 
     // Закрыть модальное окно
@@ -57,6 +66,15 @@ export default class Train extends Component {
             trainData: {
                 ...prevState.trainData,
                 [name]: value
+            }
+        }));
+    };
+
+    handleTrainTypeChange = (value) => {
+        this.setState(prevState => ({
+            trainData: {
+                ...prevState.trainData,
+                trainType: value
             }
         }));
     };
@@ -153,33 +171,84 @@ export default class Train extends Component {
                     </Card>
                 </div>
                 {/* Модальное окно */}
-                <Modal show={this.state.showModal} onHide={this.handleModalClose}>
+                <Modal show={this.state.showModal} onHide={this.handleModalClose} >
                     <Modal.Header closeButton>
-                        <Modal.Title>Модальное окно</Modal.Title>
+                        <Modal.Title>
+                            Добавить поезд
+                        </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <Form onSubmit={this.handleSubmit}>
-                            <Form.Group controlId="trainName">
-                                <Form.Label>Название поезда</Form.Label>
-                                <Form.Control type="text" name="trainName" placeholder="Название поезда" value={this.state.trainData.trainName} onChange={this.handleChange} />
+                            <Form.Group controlId="trainName" style={{marginBlockEnd: "10px"}}>
+                                <Form.Label style={{marginLeft: "8px", marginBlockEnd: "2px"}}>
+                                    Название поезда
+                                </Form.Label>
+                                <Form.Control type="text"
+                                              name="trainName"
+                                              placeholder="Название поезда"
+                                              value={this.state.trainData.trainName}
+                                              onChange={this.handleChange}
+                                              className="form-control-select"/>
                             </Form.Group>
-                            <Form.Group controlId="trainType">
-                                <Form.Label>Тип поезда</Form.Label>
-                                <Form.Control type="text" name="trainType" placeholder="Тип поезда" value={this.state.trainData.trainType} onChange={this.handleChange} />
+                            <Form.Group controlId="trainType" className="form-group-container">
+                                <Form.Label className="form-label">Тип поезда</Form.Label>
+                                <div>
+                                    <ToggleButtonGroup
+                                        type="radio"
+                                        name="trainType"
+                                        value={this.state.trainData.trainType}
+                                        onChange={this.handleTrainTypeChange} // Use a separate function for trainType change
+                                        className="custom-toggle-button-group"
+                                        defaultValue={"passenger"}
+                                    >
+                                        <ToggleButton  value="passenger" id={"passenger"} variant="danger" className="form-control-select custom-toggle-button">
+                                            Пассажирский
+                                        </ToggleButton>
+                                        <ToggleButton value="freight" id={"freight"} variant="danger" className="form-control-select custom-toggle-button">
+                                            Грузовой
+                                        </ToggleButton>
+                                    </ToggleButtonGroup>
+                                </div>
                             </Form.Group>
-                            <Form.Group controlId="startingPoint">
-                                <Form.Label>Стартовая точка</Form.Label>
-                                <Form.Control type="text" name="startingPoint" placeholder="Стартовая точка" value={this.state.trainData.startingPoint} onChange={this.handleChange} />
+                            <Form.Group controlId="startingPoint" style={{marginBlockEnd: "10px"}}>
+                                <Form.Label style={{marginLeft: "8px", marginBlockEnd: "2px"}}>
+                                    Стартовая точка
+                                </Form.Label>
+                                <Form.Control type="text"
+                                              name="startingPoint"
+                                              placeholder="Стартовая точка"
+                                              value={this.state.trainData.startingPoint}
+                                              onChange={this.handleChange}
+                                              className="form-control-select"/>
                             </Form.Group>
-                            <Form.Group controlId="finishPoint">
-                                <Form.Label>Конечная точка</Form.Label>
-                                <Form.Control type="text" name="finishPoint" placeholder="Конечная точка" value={this.state.trainData.finishPoint} onChange={this.handleChange} />
+                            <Form.Group controlId="finishPoint" style={{marginBlockEnd: "10px"}}>
+                                <Form.Label style={{marginLeft: "8px", marginBlockEnd: "2px"}}>
+                                    Конечная точка
+                                </Form.Label>
+                                <Form.Control type="text"
+                                              name="finishPoint"
+                                              placeholder="Конечная точка"
+                                              value={this.state.trainData.finishPoint}
+                                              onChange={this.handleChange}
+                                              className="form-control-select"/>
                             </Form.Group>
-                            <Form.Group controlId="numberOfWagons">
-                                <Form.Label>Количество вагонов</Form.Label>
-                                <Form.Control type="number" name="numberOfWagons" placeholder="Количество вагонов" value={this.state.trainData.numberOfWagons} onChange={this.handleChange} />
+                            <Form.Group controlId="numberOfWagons" style={{marginBlockEnd: "10px"}}>
+                                <Form.Label style={{marginLeft: "8px", marginBlockEnd: "7px"}}>
+                                    Количество вагонов
+                                </Form.Label>
+                                <Form.Control type="number"
+                                              name="numberOfWagons"
+                                              placeholder="Количество вагонов"
+                                              value={this.state.trainData.numberOfWagons}
+                                              onChange={this.handleChange}
+                                              className="form-control-select"/>
                             </Form.Group>
-                            <Button variant="primary" type="submit">Отправить</Button>
+                            <div className={"text-end"} style={{marginBlockEnd: "-10px", marginTop: "15px"}}>
+                            <Button variant="primary"
+                                    type="submit">
+                                Отправить
+                            </Button>
+                            </div>
                         </Form>
                     </Modal.Body>
                 </Modal>
