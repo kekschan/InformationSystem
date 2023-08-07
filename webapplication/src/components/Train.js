@@ -330,72 +330,76 @@ export default class Train extends Component {
                                             <div style={{display: 'inline-block'}}>{train.finishPoint}</div>
                                         </div>
                                     </Card.Header>
-                                    <Card.Body style={{maxHeight: '200px', display: 'flex', alignItems: 'center'}}>
-                                        <Card.Text>
-                                            <Container>
-                                                <Row>
-                                                    <Col xxl="9" xl="9" lg="9" md="9">
-                                                        <div className="d-flex justify-content-center">
-                                                            <img
-                                                                src={train.trainType === 'freight' ? freightImage : passengerImage}
-                                                                alt={train.trainType === 'freight' ? 'Freight' : 'Passenger'}
-                                                                className="img-fluid d-md-block d-none"
-                                                                style={{width: '740px', height: '65px'}}
-                                                            />
-                                                        </div>
-                                                    </Col>
-                                                    <Col>
-                                                        <Container className="train-label">
+
+
+                                    <Card.Body style={{ maxHeight: '200px', display: 'flex', alignItems: 'center' }}>
+                                        <Container>
+                                            <Row>
+                                                <Col md="auto">
+                                                    <div className="d-flex justify-content-center">
+                                                        <img
+                                                            src={train.trainType === 'freight' ? freightImage : passengerImage}
+                                                            alt={train.trainType === 'freight' ? 'Freight' : 'Passenger'}
+                                                            className="img-fluid d-md-block d-none"
+                                                            style={{ width: '740px', height: '65px' }}
+                                                        />
+                                                    </div>
+                                                </Col>
+                                                <Col>
+                                                    <Container className="train-label">
+                                                        <Row>
+                                                            <Col xs="auto">
+                                                                Количество вагонов:
+                                                            </Col>
+                                                            <Col>
+                                                                {train.numberOfWagons}
+                                                            </Col>
+                                                        </Row>
+
+                                                        {train.trainType === 'freight' && (
                                                             <Row>
-                                                                <Col xxl="10" xl="10" lg="10" md="10">
-                                                                    Количество вагонов:
-                                                                </Col>
-                                                                <Col>
-                                                                    {train.numberOfWagons}
+                                                                <Col xs="auto">
+                                                                    {train.freightWagon && train.freightWagon.length > 0 ? (
+                                                                        <ul>
+                                                                            {train.freightWagon.map((wagon) => (
+                                                                                <li key={wagon.id}>
+                                                                                    {`${this.getWagonTypeFreight(wagon.wagonType)}:`}
+                                                                                </li>
+                                                                            ))}
+                                                                        </ul>
+                                                                    ) : (
+                                                                        <div>Типы вагонов пока не добавлены</div>
+                                                                    )}
                                                                 </Col>
                                                             </Row>
+                                                        )}
 
-                                                            {train.trainType === 'freight' && (
-                                                                <Row>
-                                                                    <Col xxl="10" xl="10" lg="10" md="10">
-                                                                        {train.freightWagon && train.freightWagon.length > 0 ? (
-                                                                            <ul>
-                                                                                {train.freightWagon.map((wagon) => (
-                                                                                    <li key={wagon.id}>
-                                                                                        {`${this.getWagonTypeFreight(wagon.wagonType)}:`}
-                                                                                    </li>
-                                                                                ))}
-                                                                            </ul>
-                                                                        ) : (
-                                                                            <div>Типы вагонов пока не добавлены</div>
-                                                                        )}
-                                                                    </Col>
-                                                                </Row>
-                                                            )}
-
-                                                            {train.trainType === 'passenger' && (
-                                                                <Row>
-                                                                    <Col xxl="10" xl="10" lg="10" md="10">
-                                                                        {train.peopleWagons && train.peopleWagons.length > 0 ? (
-                                                                            <ul>
-                                                                                {train.peopleWagons.map((wagon) => (
-                                                                                    <li key={wagon.id}>
-                                                                                        {`${this.getWagonTypePassenger(wagon.wagonType)}:`}
-                                                                                    </li>
-                                                                                ))}
-                                                                            </ul>
-                                                                        ) : (
-                                                                            <div>Типы вагонов пока не добавлены</div>
-                                                                        )}
-                                                                    </Col>
-                                                                </Row>
-                                                            )}
-                                                        </Container>
-                                                    </Col>
-                                                </Row>
-                                            </Container>
-                                        </Card.Text>
+                                                        {train.trainType === 'passenger' && (
+                                                            <Row>
+                                                                <Col xs="auto">
+                                                                    {train.peopleWagons && train.peopleWagons.length > 0 ? (
+                                                                        <ul>
+                                                                            {train.peopleWagons.map((wagon) => (
+                                                                                <li key={wagon.id}>
+                                                                                    {`${this.getWagonTypePassenger(wagon.wagonType)}:`}
+                                                                                </li>
+                                                                            ))}
+                                                                        </ul>
+                                                                    ) : (
+                                                                        <div>Типы вагонов пока не добавлены</div>
+                                                                    )}
+                                                                </Col>
+                                                            </Row>
+                                                        )}
+                                                    </Container>
+                                                </Col>
+                                            </Row>
+                                        </Container>
                                     </Card.Body>
+
+
+
+
                                     <Card.Footer key={train.id} className="card-footer-container">
                                         <div className="text-start">
                                             <div className="text-start">
