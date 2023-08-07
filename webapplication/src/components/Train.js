@@ -8,6 +8,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faLongArrowRight} from "@fortawesome/free-solid-svg-icons";
 
 
+
 export default class Train extends Component {
     constructor(props) {
         super(props);
@@ -23,6 +24,7 @@ export default class Train extends Component {
             }
         };
     }
+
 
     // Удаление поезда по его идентификатору
     handleDeleteTrain = (trainId) => {
@@ -147,6 +149,8 @@ export default class Train extends Component {
         return wagonTypePassenger[wagonType] || wagonType;
     }
 
+
+
     // Получение данных поездов
     findAllTrain() {
         axios.get("http://localhost:8080/train")
@@ -178,6 +182,32 @@ export default class Train extends Component {
         this.props.history.push(`/${trainType}/${trainId}`);
     };
 
+    countWagonTypes = (train) => {
+        const wagonCounts = {};
+
+        if (train.trainType === 'freight') {
+            train.freightWagon.forEach((wagon) => {
+                const wagonType = wagon.wagonType;
+                if (wagonCounts[wagonType]) {
+                    wagonCounts[wagonType] += 1;
+                } else {
+                    wagonCounts[wagonType] = 1;
+                }
+            });
+        } else if (train.trainType === 'passenger') {
+            train.peopleWagons.forEach((wagon) => {
+                const wagonType = wagon.wagonType;
+                if (wagonCounts[wagonType]) {
+                    wagonCounts[wagonType] += 1;
+                } else {
+                    wagonCounts[wagonType] = 1;
+                }
+            });
+        }
+
+        return wagonCounts;
+    };
+
     render() {
         const styles = {
             cardContainer: {
@@ -186,6 +216,20 @@ export default class Train extends Component {
                 alignItems: 'center'
 
             },
+        };
+
+        const wagonTypeLabels = {
+            gondola: 'Полувагон',
+            covered: 'Крытый',
+            tank: 'Цистерновый',
+            flatcar: 'Вагон-платформа',
+            bar: 'Бар',
+            lux: 'Люкс',
+            baggageLetters: 'Почтовый',
+            coupe: 'Купе',
+            standartRestaurant: 'Ресторан',
+            envelopeLetters: 'Почтовый (багаж)',
+            reservedSeat: 'Плацкарт',
         };
 
         return (
@@ -353,51 +397,28 @@ export default class Train extends Component {
                                                 </Col>
                                                 <Col>
                                                     <div>
-                                                        <Container className="train-label ">
+                                                        <Container className="train-label">
                                                             <Row>
-                                                                <Col xs="auto">
+                                                                <Col  xs="10" style={{ fontWeight: 'bold' }}>
                                                                     Количество вагонов:
                                                                 </Col>
-                                                                <Col>
+                                                                <Col style={{ fontWeight: 'bold' }}>
                                                                     {train.numberOfWagons}
                                                                 </Col>
                                                             </Row>
 
-                                                            {train.trainType === 'freight' && (
-                                                                <Row>
-                                                                    <Col xs="auto">
-                                                                        {train.freightWagon && train.freightWagon.length > 0 ? (
-                                                                            <ul>
-                                                                                {train.freightWagon.map((wagon) => (
-                                                                                    <li key={wagon.id}>
-                                                                                        {`${this.getWagonTypeFreight(wagon.wagonType)}:`}
-                                                                                    </li>
-                                                                                ))}
-                                                                            </ul>
-                                                                        ) : (
-                                                                            <div>Типы вагонов пока не добавлены</div>
-                                                                        )}
-                                                                    </Col>
-                                                                </Row>
-                                                            )}
+                                                            {/* Вывод количества каждого типа вагона */}
+                                                            {Object.entries(this.countWagonTypes(train)).map(([wagonType, count]) => (
+                                                                <Row key={wagonType}>
+                                                                    <Col  xs={"10"}>
+                                                                        <li>{`${wagonTypeLabels[wagonType]}:`}</li>
 
-                                                            {train.trainType === 'passenger' && (
-                                                                <Row>
-                                                                    <Col xs="auto">
-                                                                        {train.peopleWagons && train.peopleWagons.length > 0 ? (
-                                                                            <ul>
-                                                                                {train.peopleWagons.map((wagon) => (
-                                                                                    <li key={wagon.id}>
-                                                                                        {`${this.getWagonTypePassenger(wagon.wagonType)}:`}
-                                                                                    </li>
-                                                                                ))}
-                                                                            </ul>
-                                                                        ) : (
-                                                                            <div>Типы вагонов пока не добавлены</div>
-                                                                        )}
+                                                                    </Col>
+                                                                    <Col>
+                                                                        {`${count}`}
                                                                     </Col>
                                                                 </Row>
-                                                            )}
+                                                            ))}
                                                         </Container>
                                                     </div>
                                                 </Col>
