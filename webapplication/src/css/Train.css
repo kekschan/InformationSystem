@@ -72,8 +72,8 @@
 
   .custom-card {
     animation: fade-in 1s ease-in-out;
-    border-radius: 0; /* Removes border radius to make corners sharp */
-    background-color: white; /* Set the background color to white */
+    border-radius: 0;
+    background-color: white;
   }
 
 .train-label {
@@ -81,18 +81,18 @@
     font-size: 14px;
 }
 
-/* Стиль для контейнера Form.Group */
+
 .form-group-container {
     margin-block-end: 10px;
 }
 
-/* Стиль для метки Form.Label */
+
 .form-label {
     margin-left: 8px;
     margin-block-end: 2px;
 }
 
-/* Стиль для select Form.Control */
+
 .form-control-select {
     color: rgb(195, 27, 28);
     background-color: white;
@@ -100,7 +100,7 @@
     transition: background-color 0.3s, color 0.3s;
 }
 
-/* Стиль для активного select Form.Control */
+
 .form-control-select.active {
     color: white;
     background-color: rgb(195, 27, 28);

@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Button, Card, Form, Modal, ToggleButton, ToggleButtonGroup} from "react-bootstrap";
+import {Button, Card, Form, Modal} from "react-bootstrap";
 import {withRouter} from "react-router-dom";
 import axios from "axios";
 import '../css/Train.css';
@@ -87,20 +87,87 @@ class Wagon extends Component {
             });
     }
 
-    // Открыть модальное окно
+// Открыть модальное окно
     handleModalOpen = () => {
         this.setState({
             showModal: true,
             wagonData: {
-                "wagonType": "",
-            }
+                wagonType: "",
+            },
         });
     };
 
-    // Закрыть модальное окно
+// Закрыть модальное окно
     handleModalClose = () => {
-        this.setState({showModal: false});
+        this.setState({ showModal: false });
     };
+
+// Обработчик изменения типа вагона
+    handleWagonTypeChange = (value) => {
+        this.setState((prevState) => ({
+            wagonData: {
+                ...prevState.wagonData,
+                wagonType: value,
+            },
+        }));
+    };
+
+    handleDeleteWagon = (wagonId) => {
+        const { trainData } = this.state;
+        const trainId = trainData.id;
+
+        const url = trainData.trainType === 'freight'
+            ? `http://localhost:8080/freight/${trainId}/${wagonId}`
+            : `http://localhost:8080/passenger/${trainId}/${wagonId}`;
+
+        // Make the DELETE request
+        axios
+            .delete(url)
+            .then((response) => {
+                console.log('Wagon deleted successfully:', response.data);
+                if (trainData.trainType === 'freight') {
+                    this.getFreightWagons(trainId);
+                } else {
+                    this.getPassengerWagons(trainId);
+                }
+            })
+            .catch((error) => {
+                console.error('Error deleting wagon:', error);
+            });
+    };
+
+    handleSubmit = () => {
+        const { wagonType } = this.state.wagonData;
+        const { trainData } = this.state;
+        const trainId = trainData.id;
+
+        const postData = {
+            wagonType: wagonType,
+        };
+
+        const url = trainData.trainType === 'freight'
+            ? `http://localhost:8080/freight/${trainId}/add`
+            : `http://localhost:8080/passenger/${trainId}/add`;
+
+        // Make the POST request
+        axios
+            .post(url, postData)
+            .then((response) => {
+
+                console.log('Wagon added successfully:', response.data);
+
+                if (trainData.trainType === 'freight') {
+                    this.getFreightWagons(trainId);
+                } else {
+                    this.getPassengerWagons(trainId);
+                }
+                this.handleModalClose();
+            })
+            .catch((error) => {
+                console.error('Error adding wagon:', error);
+            });
+    };
+
 
 
     render() {
@@ -159,7 +226,106 @@ class Wagon extends Component {
                     </div>
                 </div>
 
-
+                <Modal show={this.state.showModal} onHide={this.handleModalClose}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Выберите тип вагона</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Form>
+                            <Form.Group controlId="wagonType">
+                                {this.state.trainData.trainType === 'freight' ? (
+                                    <>
+                                        <Button
+                                            variant={this.state.wagonData.wagonType === 'gondola' ? 'danger' : 'outline-danger'}
+                                            onClick={() => this.handleWagonTypeChange('gondola')}
+                                            className="mb-2"  style={{marginRight: "4px"}}
+                                        >
+                                            Полувагон
+                                        </Button>
+                                        <Button
+                                            variant={this.state.wagonData.wagonType === 'covered' ? 'danger' : 'outline-danger'}
+                                            onClick={() => this.handleWagonTypeChange('covered')}
+                                            className="mb-2" style={{marginRight: "4px"}}
+                                        >
+                                            Крытый
+                                        </Button>
+                                        <Button
+                                            variant={this.state.wagonData.wagonType === 'tank' ? 'danger' : 'outline-danger'}
+                                            onClick={() => this.handleWagonTypeChange('tank')}
+                                            className="mb-2" style={{marginRight: "4px"}}
+                                        >
+                                            Цистерновый
+                                        </Button>
+                                        <Button
+                                            variant={this.state.wagonData.wagonType === 'flatcar' ? 'danger' : 'outline-danger'}
+                                            onClick={() => this.handleWagonTypeChange('flatcar')}
+                                            className="mb-2" style={{marginRight: "4px"}}
+                                        >
+                                            Вагон-платформа
+                                        </Button>
+                                    </>
+                                ) : (
+                                    <>
+                                        <Button
+                                            variant={this.state.wagonData.wagonType === 'bar' ? 'danger' : 'outline-danger'}
+                                            onClick={() => this.handleWagonTypeChange('bar')}
+                                            className="mb-2" style={{marginRight: "4px"}}
+                                        >
+                                            Бар
+                                        </Button>
+                                        <Button
+                                            variant={this.state.wagonData.wagonType === 'lux' ? 'danger' : 'outline-danger'}
+                                            onClick={() => this.handleWagonTypeChange('lux')}
+                                            className="mb-2" style={{marginRight: "4px"}}
+                                        >
+                                            Люкс
+                                        </Button>
+                                        <Button
+                                            variant={this.state.wagonData.wagonType === 'baggageLetters' ? 'danger' : 'outline-danger'}
+                                            onClick={() => this.handleWagonTypeChange('baggageLetters')}
+                                            className="mb-2" style={{marginRight: "4px"}}
+                                        >
+                                            Почтовый
+                                        </Button>
+                                        <Button
+                                            variant={this.state.wagonData.wagonType === 'coupe' ? 'danger' : 'outline-danger'}
+                                            onClick={() => this.handleWagonTypeChange('coupe')}
+                                            className="mb-2" style={{marginRight: "4px"}}
+                                        >
+                                            Купе
+                                        </Button>
+                                        <Button
+                                            variant={this.state.wagonData.wagonType === 'standartRestaurant' ? 'danger' : 'outline-danger'}
+                                            onClick={() => this.handleWagonTypeChange('standartRestaurant')}
+                                            className="mb-2" style={{marginRight: "4px"}}
+                                        >
+                                            Ресторан
+                                        </Button>
+                                        <Button
+                                            variant={this.state.wagonData.wagonType === 'envelopeLetters' ? 'danger' : 'outline-danger'}
+                                            onClick={() => this.handleWagonTypeChange('envelopeLetters')}
+                                            className="mb-2" style={{marginRight: "4px"}}
+                                        >
+                                            Почтовый (багаж)
+                                        </Button>
+                                        <Button
+                                            variant={this.state.wagonData.wagonType === 'reservedSeat' ? 'danger' : 'outline-danger'}
+                                            onClick={() => this.handleWagonTypeChange('reservedSeat')}
+                                            className="mb-2" style={{marginRight: "4px"}}
+                                        >
+                                            Плацкарт
+                                        </Button>
+                                    </>
+                                )}
+                            </Form.Group>
+                        </Form>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="primary" onClick={this.handleSubmit}>
+                            Добавить
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
                 <div>
                     {wagons.length === 0 ? (
                         <div className="fade-in-card">
@@ -220,6 +386,13 @@ class Wagon extends Component {
                                             )}
                                         </ul>
                                     </Card.Body>
+                                    <Card.Footer key={wagon.id} className="card-footer-container">
+                                        <div className="text-end">
+                                            <Button className="custom-btn" style={{ marginRight: '3px' }} onClick={() => this.handleDeleteWagon(wagon.id)}>
+                                                Удалить
+                                            </Button>
+                                        </div>
+                                    </Card.Footer>
                                 </Card>
                             ))}
                         </div>

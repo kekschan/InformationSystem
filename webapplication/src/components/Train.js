@@ -24,28 +24,21 @@ export default class Train extends Component {
         };
     }
 
-
-    // Удаление поезда по его идентификатору
     handleDeleteTrain = (trainId) => {
-        // Отправка DELETE-запроса на сервер
         axios.delete(`http://localhost:8080/train/${trainId}`)
             .then(response => {
-                // Обработка успешного ответа, если необходимо
                 console.log(response.data);
-                // Обновление списка поездов после удаления
                 this.findAllTrain();
             })
             .catch(error => {
-                // Обработка ошибок при отправке запроса
                 console.error('Error:', error);
             });
     };
 
-    // Открыть модальное окно
     handleModalOpen = () => {
         this.setState({
             showModal: true,
-            trainData: { // Reset trainData to empty state
+            trainData: {
                 trainName: "",
                 trainType: "",
                 startingPoint: "",
@@ -55,12 +48,10 @@ export default class Train extends Component {
         });
     };
 
-    // Закрыть модальное окно
     handleModalClose = () => {
         this.setState({showModal: false});
     };
 
-    // Обработка изменений в полях ввода формы
     handleChange = (event) => {
         const {name, value} = event.target;
         this.setState(prevState => ({
@@ -80,16 +71,13 @@ export default class Train extends Component {
         }));
     };
 
-    // Обновление списка поездов с анимацией
     updateTrainListWithAnimation = () => {
-        // Добавить класс show для плавного появления модального окна
         this.setState({showModal: true});
 
-        // Задержка, чтобы показать модальное окно с анимацией
         setTimeout(() => {
             this.handleModalClose();
             this.findAllTrain();
-        }, 200); // Измените значение задержки по вашему усмотрению
+        }, 200);
     };
 
     handleSubmit = (event) => {
@@ -97,59 +85,28 @@ export default class Train extends Component {
         const {trainId, ...data} = this.state.trainData;
 
         if (trainId) {
-            // If trainId exists, perform a PUT request for updating the train
             axios
                 .put(`http://localhost:8080/train/${trainId}`, data)
                 .then((response) => {
-                    // Handle successful response, if needed
                     console.log(response.data);
                     this.updateTrainListWithAnimation();
                 })
                 .catch((error) => {
-                    // Handle errors on PUT request
                     console.error('Error:', error);
                 });
         } else {
-            // If trainId doesn't exist, perform a POST request for creating a new train
             axios
                 .post('http://localhost:8080/train/add', data)
                 .then((response) => {
-                    // Handle successful response, if needed
                     console.log(response.data);
                     this.updateTrainListWithAnimation();
                 })
                 .catch((error) => {
-                    // Handle errors on POST request
                     console.error('Error:', error);
                 });
         }
     };
 
-    getWagonTypeFreight(wagonType) {
-        const wagonTypeFreight = {
-            gondola: 'Полувагон',
-            covered: 'Крытый',
-            tank: 'Цистерновый',
-            flatcar: 'Вагон-платформа',
-        };
-        return wagonTypeFreight[wagonType] || wagonType;
-    }
-
-    getWagonTypePassenger(wagonType) {
-        const wagonTypePassenger = {
-            bar: 'Бар',
-            lux: 'Люкс',
-            baggageLetters: 'Почтовый',
-            coupe: 'Купе',
-            standartRestaurant: 'Ресторан',
-            envelopeLetters: 'Почтовый (багаж)',
-            reservedSeat: 'Плацкарт',
-        };
-        return wagonTypePassenger[wagonType] || wagonType;
-    }
-
-
-    // Получение данных поездов
     findAllTrain() {
         axios.get("http://localhost:8080/train")
             .then(response => response.data)
@@ -384,9 +341,9 @@ export default class Train extends Component {
                                                             alt={train.trainType === 'freight' ? 'Freight' : 'Passenger'}
                                                             className="img-fluid d-md-block d-none"
                                                             style={{
-                                                                width: '100%', // The image will take the full width of its container
-                                                                maxWidth: '700px', // Maximum width of 700px
-                                                                height: '65px', // Default height of 65px
+                                                                width: '100%',
+                                                                maxWidth: '700px',
+                                                                height: '65px',
                                                                 borderRadius: '5px',
                                                                 boxShadow: '0 2px 5px rgba(0,0,0,0.0)',
                                                             }}
@@ -406,7 +363,6 @@ export default class Train extends Component {
                                                             </Row>
                                                             {(train.peopleWagons && train.peopleWagons.length >= 0) || (train.freightWagon && train.freightWagon.length >= 0) ? (
                                                                     <div>
-                                                                        {/* Вывод количества каждого типа вагона */}
                                                                         {Object.entries(this.countWagonTypes(train)).map(([wagonType, count]) => (
                                                                             <Row key={wagonType}>
                                                                                 <Col xs={"10"}>
@@ -419,7 +375,6 @@ export default class Train extends Component {
                                                                             </Row>
                                                                         ))}
                                                                     </div>) :
-
                                                                 (
                                                                     <div>Типы вагонов пока не добавлены</div>
                                                                 )}
@@ -442,7 +397,6 @@ export default class Train extends Component {
                                         </div>
                                         <div className="text-end">
                                             <div className="text-end">
-                                                {/* Кнопка для удаления поезда */}
                                                 <Button className="custom-btn" style={{marginRight: '3px'}}
                                                         onClick={() => this.handleDeleteTrain(train.id)}>Удалить</Button>
                                                 <Button className="custom-btn"

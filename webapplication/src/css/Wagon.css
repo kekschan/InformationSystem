@@ -2,18 +2,15 @@
     border: 1px solid rgb(195, 27, 28);
 }
 
-/* Стиль для активного toggle button */
 .form-group-container .custom-toggle-button-group .custom-toggle-button.active {
     color: white;
     background-color: rgb(195, 27, 28);
 }
 
-/* Стиль для неактивного toggle button */
 .form-group-container .custom-toggle-button-group .custom-toggle-button:not(.active) {
     color: rgb(195, 27, 28);
     background-color: white;
 }
-
 
 @keyframes fade-in {
     from {
@@ -27,19 +24,15 @@
     animation: fade-in 2s ease-in-out;
 }
 
-
-/* Стиль для контейнера Form.Group */
 .form-group-container {
     margin-block-end: 10px;
 }
 
-/* Стиль для метки Form.Label */
 .form-label {
     margin-left: 8px;
     margin-block-end: 2px;
 }
 
-/* Стиль для select Form.Control */
 .form-control-select {
     color: rgb(195, 27, 28);
     background-color: white;
@@ -47,7 +40,6 @@
     transition: background-color 0.3s, color 0.3s;
 }
 
-/* Стиль для активного select Form.Control */
 .form-control-select.active {
     color: white;
     background-color: rgb(195, 27, 28);

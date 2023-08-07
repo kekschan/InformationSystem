@@ -1,6 +1,6 @@
 import { Navbar, Container, Nav } from 'react-bootstrap';
 import '../css/NavigationBar.css';
-import {Component} from "react"; // Путь к вашему CSS-файлу или добавьте стили в соответствующий файл
+import {Component} from "react";
 
 export default class NavigationBar extends Component {
     render() {

@@ -4,23 +4,23 @@
 }
 
 .custom-navbar {
-    background-color: rgb(195, 27, 28); /* Темно-красный (бордовый) */
+    background-color: rgb(195, 27, 28);
     opacity: 0.95;
     height: 50px;
     font-size: 17px;
-    display: flex; /* Делаем контейнер flex-контейнером */
-    justify-content: space-between; /* Равномерно распределяем элементы по ширине контейнера */
-    align-items: center; /* Выравниваем элементы вертикально по центру */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 
 .spaced-links .nav-link {
     color: white;
-    margin-right: 20px; /* Уменьшим значение для более умеренного интервала между ссылками */
+    margin-right: 20px;
     height: 50px;
-    position: relative; /* Устанавливаем позиционирование для разделителя */
-    display: flex; /* Делаем ссылки flex-элементами, чтобы вертикальный разделитель работал */
-    align-items: center; /* Выравниваем содержимое ссылок по вертикали */
+    position: relative;
+    display: flex;
+    align-items: center;
     text-align: center;
 }
 
@@ -31,12 +31,12 @@
 
 .spaced-links .nav-link:not(:first-child)::before {
     content: "";
-    width: 1px; /* Ширина вертикального разделителя */
-    height: 80%; /* Высота разделителя, чтобы он простирается на 80% высоты ссылки */
-    background-color: rgba(255, 255, 255, 0.5); /* Цвет разделителя с небольшой прозрачностью */
-    position: absolute; /* Позиционируем разделитель абсолютно относительно ссылки */
-    top: 10%; /* Выравниваем разделитель по вертикали на 10% от верхнего края ссылки */
-    left: -10px; /* Подвигаем разделитель влево, чтобы он был ровно перед ссылкой */
+    width: 1px;
+    height: 80%;
+    background-color: rgba(255, 255, 255, 0.5);
+    position: absolute;
+    top: 10%;
+    left: -10px;
 }
 
 .spaced-links .nav-link:last-child {
