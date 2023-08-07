@@ -399,7 +399,7 @@ export default class Train extends Component {
                                                     <div>
                                                         <Container className="train-label">
                                                             <Row>
-                                                                <Col  xs="10" style={{ fontWeight: 'bold' }}>
+                                                                <Col  xs="10">
                                                                     Количество вагонов:
                                                                 </Col>
                                                                 <Col style={{ fontWeight: 'bold' }}>
