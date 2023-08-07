@@ -8,7 +8,6 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faLongArrowRight} from "@fortawesome/free-solid-svg-icons";
 
 
-
 export default class Train extends Component {
     constructor(props) {
         super(props);
@@ -148,7 +147,6 @@ export default class Train extends Component {
         };
         return wagonTypePassenger[wagonType] || wagonType;
     }
-
 
 
     // Получение данных поездов
@@ -379,7 +377,7 @@ export default class Train extends Component {
                                     <Card.Body style={{maxHeight: '200px', display: 'flex', alignItems: 'center'}}>
                                         <Container>
                                             <Row>
-                                                <Col lg="9" md="8" sm="12" className="d-flex align-items-center">
+                                                <Col lg="9" md="8" sm="12" xl={"8"} className="d-flex align-items-center">
                                                     <div className="d-flex justify-content-center">
                                                         <img
                                                             src={train.trainType === 'freight' ? freightImage : passengerImage}
@@ -399,26 +397,32 @@ export default class Train extends Component {
                                                     <div>
                                                         <Container className="train-label">
                                                             <Row>
-                                                                <Col  xs="10">
+                                                                <Col xs="10">
                                                                     Количество вагонов:
                                                                 </Col>
-                                                                <Col style={{ fontWeight: 'bold' }}>
+                                                                <Col style={{fontWeight: 'bold'}}>
                                                                     {train.numberOfWagons}
                                                                 </Col>
                                                             </Row>
+                                                            {(train.peopleWagons && train.peopleWagons.length >= 0) || (train.freightWagon && train.freightWagon.length >= 0) ? (
+                                                                    <div>
+                                                                        {/* Вывод количества каждого типа вагона */}
+                                                                        {Object.entries(this.countWagonTypes(train)).map(([wagonType, count]) => (
+                                                                            <Row key={wagonType}>
+                                                                                <Col xs={"10"}>
+                                                                                    <li>{`${wagonTypeLabels[wagonType]}:`}</li>
 
-                                                            {/* Вывод количества каждого типа вагона */}
-                                                            {Object.entries(this.countWagonTypes(train)).map(([wagonType, count]) => (
-                                                                <Row key={wagonType}>
-                                                                    <Col  xs={"10"}>
-                                                                        <li>{`${wagonTypeLabels[wagonType]}:`}</li>
+                                                                                </Col>
+                                                                                <Col>
+                                                                                    {`${count}`}
+                                                                                </Col>
+                                                                            </Row>
+                                                                        ))}
+                                                                    </div>) :
 
-                                                                    </Col>
-                                                                    <Col>
-                                                                        {`${count}`}
-                                                                    </Col>
-                                                                </Row>
-                                                            ))}
+                                                                (
+                                                                    <div>Типы вагонов пока не добавлены</div>
+                                                                )}
                                                         </Container>
                                                     </div>
                                                 </Col>
@@ -432,7 +436,7 @@ export default class Train extends Component {
                                             <div className="text-start">
                                                 <Button className="custom-btn"
                                                         onClick={() => this.handleButtonClick(train.id, train.trainType)}>
-                                                    Подробнее
+                                                    Вагоны
                                                 </Button>
                                             </div>
                                         </div>

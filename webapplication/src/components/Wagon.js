@@ -1,14 +1,19 @@
 import React, {Component} from "react";
-import {Card} from "react-bootstrap";
+import {Button, Card, Form, Modal, ToggleButton, ToggleButtonGroup} from "react-bootstrap";
 import {withRouter} from "react-router-dom";
 import axios from "axios";
+import '../css/Train.css';
 
 class Wagon extends Component {
     constructor(props) {
         super(props);
         this.state = {
             trainData: null,
-            wagons: [], // Initialize wagons as an empty array
+            wagons: [],
+            showModal: false,
+            wagonData: {
+                wagonType: "",
+            },
         };
     }
 
@@ -36,18 +41,12 @@ class Wagon extends Component {
     }
 
     componentDidMount() {
-        // Получение id поезда из URL
         const {id} = this.props.match.params;
-
-        // Отправка GET-запроса на сервер для получения данных поезда
         axios
             .get(`http://localhost:8080/train/${id}`)
             .then((response) => {
-                // Обработка успешного ответа
                 const trainData = response.data;
                 this.setState({trainData});
-
-                // Получение данных о вагонах в зависимости от типа поезда
                 if (trainData.trainType === "passenger") {
                     this.getPassengerWagons(id);
                 } else if (trainData.trainType === "freight") {
@@ -56,12 +55,11 @@ class Wagon extends Component {
             })
             .catch((error) => {
                 // Обработка ошибок
-                console.error("Error:", error);
+                console.error("Ошибка:", error);
             });
     }
 
     getPassengerWagons(trainId) {
-        // Отправка GET-запроса на сервер для получения данных о пассажирских вагонах
         axios
             .get(`http://localhost:8080/passenger/${trainId}`)
             .then((response) => {
@@ -76,7 +74,6 @@ class Wagon extends Component {
     }
 
     getFreightWagons(trainId) {
-        // Отправка GET-запроса на сервер для получения данных о грузовых вагонах
         axios
             .get(`http://localhost:8080/freight/${trainId}`)
             .then((response) => {
@@ -90,6 +87,22 @@ class Wagon extends Component {
             });
     }
 
+    // Открыть модальное окно
+    handleModalOpen = () => {
+        this.setState({
+            showModal: true,
+            wagonData: {
+                "wagonType": "",
+            }
+        });
+    };
+
+    // Закрыть модальное окно
+    handleModalClose = () => {
+        this.setState({showModal: false});
+    };
+
+
     render() {
         const styles = {
             cardContainer: {
@@ -99,7 +112,6 @@ class Wagon extends Component {
             },
         };
 
-        // Если данные поезда еще не получены, показать загрузочный индикатор или другую информацию
         if (!this.state.trainData) {
             return (
                 <body style={styles.cardContainer}>
@@ -117,9 +129,8 @@ class Wagon extends Component {
                 </body>
             );
         }
-        // Извлечение данных о вагонах из состояния
+
         const {wagons} = this.state;
-        // Извлечение данных поезда из состояния
         const {trainName, trainType, startingPoint, finishPoint, numberOfWagons} = this.state.trainData;
 
         return (
@@ -135,56 +146,78 @@ class Wagon extends Component {
                                         номером {trainName}; {startingPoint} - {finishPoint}; Количество
                                         вагонов: {numberOfWagons}
                                     </div>
-                                    <div style={{marginBlockEnd: '20px'}}>Здесь вы можете добавлять, удалять у данного поезда. Удачной вам работы!
+                                    <div
+                                        style={{marginBlockEnd: '20px'}}>Здесь вы можете добавлять, удалять у данного
+                                        поезда. Удачной вам работы!
+                                    </div>
+                                    <div className='text-end'><Button variant="success"
+                                                                      onClick={this.handleModalOpen}>Добавить</Button>
                                     </div>
                                 </div>
                             </Card.Header>
                         </Card>
                     </div>
                 </div>
+
+
                 <div>
                     {wagons.length === 0 ? (
                         <div className="fade-in-card">
                             <Card className="red-border">
                                 <Card.Body>
                                     <div className="text-center">
-                                        <Card.Title>Нет данных о вагонах для данного поезда.</Card.Title>
+                                        <Card.Title>Вагоны пока не добавлены!</Card.Title>
                                     </div>
                                 </Card.Body>
                             </Card>
                         </div>
                     ) : (
                         <div className="fade-in-card">
-                            {wagons.map((wagon) => (
+                            {wagons.map((wagon, index) => (
                                 <Card className="custom-card" style={{marginBlockEnd: "15px"}} key={wagon.id}>
                                     <Card.Header as="h5">
+                                        <div style={{display: 'inline-block', marginRight: '17px'}}>
+                                            {index}
+                                        </div>
                                         {wagon.train.trainType === "freight" ? this.getWagonTypeFreight(wagon.wagonType) : this.getWagonTypePassenger(wagon.wagonType)}
                                     </Card.Header>
                                     <Card.Body>
                                         <ul>
-                                                {wagon.train.trainType === "freight" ? (
-                                                    <div>
-                                                        Объем: {wagon.volume}
-                                                        <br/>
-                                                        Длина: {wagon.length}
-                                                        <br/>
-                                                        Ширина: {wagon.width}
-                                                        <br/>
-                                                        Высота: {wagon.height}
-                                                    </div>
-                                                ) : (
-                                                    <div>
-                                                        Вместимость: {wagon.seatingCapacity}
-                                                        <br/>
-                                                        Количество столов: {wagon.tables}
-                                                        <br/>
-                                                        Наличие туалетов: {wagon.toilets ? "Да" : "Нет"}
-                                                        <br/>
-                                                        Наличие вентиляции: {wagon.hasVentilation ? "Да" : "Нет"}
-                                                        {wagon.wagonType === "lux" &&
-                                                            <div>Количество кроватей: {wagon.beds}</div>}
-                                                    </div>
-                                                )}
+                                            {wagon.train.trainType === "freight" ? (
+                                                <div>
+                                                    Объем: {wagon.volume} м2.
+                                                    <br/>
+                                                    Длина: {wagon.length} м.
+                                                    <br/>
+                                                    Ширина: {wagon.width} м.
+                                                    <br/>
+                                                    Высота: {wagon.height} м.
+                                                </div>
+                                            ) : (
+                                                <div>
+                                                    Вместимость: {wagon.seatingCapacity} людей
+                                                    <br/>
+                                                    Количество столов: {wagon.tables}
+                                                    <br/>
+                                                    Наличие туалетов: {wagon.toilets ? "Да" : "Нет"}
+                                                    <br/>
+                                                    Наличие вентиляции: {wagon.hasVentilation ? "Да" : "Нет"}
+                                                    {wagon.wagonType === "lux" &&
+                                                        <div>Количество кроватей: {wagon.beds}</div>}
+                                                    {wagon.wagonType === "bar" &&
+                                                        <div>Наличие алкоголя: {wagon.hasAlcohol ? "Да" : "Нет"}</div>}
+                                                    {wagon.wagonType === "baggageLetters" &&
+                                                        <div>Вместимость писем: {wagon.accommodation}</div>}
+                                                    {wagon.wagonType === "coupe" &&
+                                                        <div>Количество кроватей: {wagon.beds}</div>}
+                                                    {wagon.wagonType === "standartRestaurant" &&
+                                                        <div>Наличие алкоголя: {wagon.hasAlcohol ? "Да" : "Нет"}</div>}
+                                                    {wagon.wagonType === "envelopeLetters" &&
+                                                        <div>Вместимость писем с багажом: {wagon.accommodation}</div>}
+                                                    {wagon.wagonType === "reservedSeat" &&
+                                                        <div>Количество кроватей: {wagon.beds}</div>}
+                                                </div>
+                                            )}
                                         </ul>
                                     </Card.Body>
                                 </Card>
