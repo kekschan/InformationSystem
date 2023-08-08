@@ -334,7 +334,7 @@ export default class Train extends Component {
                                     <Card.Body style={{maxHeight: '200px', display: 'flex', alignItems: 'center'}}>
                                         <Container>
                                             <Row>
-                                                <Col lg="9" md="8" sm="12" xl={"8"} className="d-flex align-items-center">
+                                                <Col lg="8" md="7" sm="12" xl="8" className="d-flex align-items-center">
                                                     <div className="d-flex justify-content-center">
                                                         <img
                                                             src={train.trainType === 'freight' ? freightImage : passengerImage}
@@ -355,7 +355,7 @@ export default class Train extends Component {
                                                         <Container className="train-label">
                                                             <Row>
                                                                 <Col xs="10">
-                                                                    Количество вагонов:
+                                                                    Необходимое количество:
                                                                 </Col>
                                                                 <Col style={{fontWeight: 'bold'}}>
                                                                     {train.numberOfWagons}
