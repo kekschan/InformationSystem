@@ -111,6 +111,25 @@ public class TrainService {
             train.setNumberOfWagons(trainDto.getNumberOfWagons());
         }
 
+        if (trainDto.getNumberOfWagons() != null) {
+            int totalWagons = 0;
+
+            if ("freight".equals(trainDto.getTrainType())) {
+                totalWagons = train.getFreightWagon().size();
+            } else if ("passenger".equals(trainDto.getTrainType())) {
+                totalWagons = train.getPeopleWagons().size();
+            }
+
+            if (trainDto.getNumberOfWagons() < totalWagons) {
+                throw new IllegalArgumentException("Количество вагонов не может быть меньше, чем количество добавленных типов вагонов.");
+            }
+
+            train.setNumberOfWagons(trainDto.getNumberOfWagons());
+        }
+
+
+
+
         trainRepository.save(train);
     }
 
