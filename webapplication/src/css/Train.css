@@ -92,6 +92,11 @@
     margin-block-end: 2px;
 }
 
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
 
 .form-control-select {
     color: rgb(195, 27, 28);

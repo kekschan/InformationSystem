@@ -338,17 +338,17 @@ class Wagon extends Component {
                             </Card>
                         </div>
                     ) : (
-                        <div className="fade-in-card">
+                        <div className="fade-in-card card-grid" >
                             {wagons.map((wagon, index) => (
-                                <Card className="custom-card" style={{marginBlockEnd: "15px"}} key={wagon.id}>
+                                <Card className="custom-card" style={{marginBlockEnd: "15px"}} key={wagon.id} >
                                     <Card.Header as="h5">
                                         <div style={{display: 'inline-block', marginRight: '17px'}}>
                                             {index}
                                         </div>
                                         {wagon.train.trainType === "freight" ? this.getWagonTypeFreight(wagon.wagonType) : this.getWagonTypePassenger(wagon.wagonType)}
                                     </Card.Header>
-                                    <Card.Body>
-                                        <ul>
+                                    <Card.Body >
+                                        <ul >
                                             {wagon.train.trainType === "freight" ? (
                                                 <div>
                                                     Объем: {wagon.volume} м2.
