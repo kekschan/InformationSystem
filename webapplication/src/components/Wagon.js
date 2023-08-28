@@ -214,7 +214,7 @@ class Wagon extends Component {
                                         вагонов: {numberOfWagons}
                                     </div>
                                     <div
-                                        style={{marginBlockEnd: '20px'}}>Здесь вы можете добавлять, удалять у данного
+                                        style={{marginBlockEnd: '20px'}}>Здесь вы можете добавлять и удалять вагоны у данного
                                         поезда. Удачной вам работы!
                                     </div>
                                     <div className='text-end'><Button variant="success"

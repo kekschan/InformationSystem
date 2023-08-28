@@ -194,10 +194,10 @@ export default class Train extends Component {
                     <Card className="custom-card">
                         <Card.Header as="h4">
                             <div className="text-center">
-                                <div style={{marginBlockEnd: '5px'}}>Добро пожаловать на страницу информационной модели.
+                                <div style={{marginBlockEnd: '5px'}}>Добро пожаловать на страницу администрации РЖД.
                                 </div>
                                 <div style={{marginBlockEnd: '20px'}}>Здесь вы можете добавлять, удалять и изменять
-                                    поезда на сервере. Удачной вам работы!
+                                    поезда на платформе. Удачной вам работы!
                                 </div>
                                 <div className='text-end'><Button variant="success"
                                                                   onClick={this.handleModalOpen}>Добавить</Button></div>
