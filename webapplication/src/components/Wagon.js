@@ -379,7 +379,7 @@ class Wagon extends Component {
                                                     {wagon.wagonType === "standartRestaurant" &&
                                                         <div>Наличие алкоголя: {wagon.hasAlcohol ? "Да" : "Нет"}</div>}
                                                     {wagon.wagonType === "envelopeLetters" &&
-                                                        <div>Вместимость писем с багажом: {wagon.accommodation}</div>}
+                                                        <div>Вместимость писем: {wagon.accommodation}</div>}
                                                     {wagon.wagonType === "reservedSeat" &&
                                                         <div>Количество кроватей: {wagon.beds}</div>}
                                                 </div>
