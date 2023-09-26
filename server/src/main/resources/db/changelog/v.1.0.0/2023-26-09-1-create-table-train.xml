@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.0.xsd">
+
+    <changeSet logicalFilePath="./db/changelog/v.1.0.0/2023-26-09-1-create-table-train.xml"
+               id="2023-09-26-1-create-table-train" author="kekschan">
+        <createTable tableName="train">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="train_type" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="train_name" type="varchar(255)"/>
+            <column name="starting_point" type="varchar(255)"/>
+            <column name="finish_point" type="varchar(255)"/>
+            <column name="number_of_wagons" type="integer"/>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

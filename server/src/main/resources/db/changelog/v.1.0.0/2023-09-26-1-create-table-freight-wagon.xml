@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.0.xsd">
+
+    <changeSet logicalFilePath="./db/changelog/v.1.0.0/2023-09-26-1-create-table-freight-wagon.xml"
+               id="2023-09-26-1-create-table-freight-wagon" author="kekschan">
+        <createTable tableName="freight_wagon">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="wagon_type" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="volume" type="double"/>
+            <column name="length" type="double"/>
+            <column name="width" type="double"/>
+            <column name="height" type="double"/>
+            <column name="train_id" type="uuid"/>
+        </createTable>
+    </changeSet>
+
+    <!-- Define foreign key constraint for train_id referencing train -->
+    <changeSet logicalFilePath="./db/changelog/v.1.0.0/2023-09-26-1-create-table-freight-wagon.xml"
+               id="2023-09-26-2-add-foreign-key-freight-wagon" author="kekschan">
+        <addForeignKeyConstraint baseTableName="freight_wagon"
+                                 baseColumnNames="train_id"
+                                 constraintName="freight_wagon"
+                                 referencedTableName="train"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"/>
+    </changeSet>
+
+</databaseChangeLog>

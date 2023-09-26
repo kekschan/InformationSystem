@@ -25,7 +25,7 @@ export default class Train extends Component {
     }
 
     handleDeleteTrain = (trainId) => {
-        axios.delete(`http://localhost:8080/train/${trainId}`)
+        axios.delete(`http://localhost:8181/train/${trainId}`)
             .then(response => {
                 console.log(response.data);
                 this.findAllTrain();
@@ -86,7 +86,7 @@ export default class Train extends Component {
 
         if (trainId) {
             axios
-                .put(`http://localhost:8080/train/${trainId}`, data)
+                .put(`http://localhost:8181/train/${trainId}`, data)
                 .then((response) => {
                     console.log(response.data);
                     this.updateTrainListWithAnimation();
@@ -96,7 +96,7 @@ export default class Train extends Component {
                 });
         } else {
             axios
-                .post('http://localhost:8080/train/add', data)
+                .post('http://localhost:8181/train/add', data)
                 .then((response) => {
                     console.log(response.data);
                     this.updateTrainListWithAnimation();
@@ -108,7 +108,7 @@ export default class Train extends Component {
     };
 
     findAllTrain() {
-        axios.get("http://localhost:8080/train")
+        axios.get("http://localhost:8181/train")
             .then(response => response.data)
             .then((data) => {
                 this.setState({train: data});

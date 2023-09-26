@@ -43,7 +43,7 @@ class Wagon extends Component {
     componentDidMount() {
         const {id} = this.props.match.params;
         axios
-            .get(`http://localhost:8080/train/${id}`)
+            .get(`http://localhost:8181/train/${id}`)
             .then((response) => {
                 const trainData = response.data;
                 this.setState({trainData});
@@ -61,7 +61,7 @@ class Wagon extends Component {
 
     getPassengerWagons(trainId) {
         axios
-            .get(`http://localhost:8080/passenger/${trainId}`)
+            .get(`http://localhost:8181/passenger/${trainId}`)
             .then((response) => {
                 // Обработка успешного ответа
                 const passengerWagons = response.data;
@@ -75,7 +75,7 @@ class Wagon extends Component {
 
     getFreightWagons(trainId) {
         axios
-            .get(`http://localhost:8080/freight/${trainId}`)
+            .get(`http://localhost:8181/freight/${trainId}`)
             .then((response) => {
                 // Обработка успешного ответа
                 const freightWagons = response.data;
@@ -117,8 +117,8 @@ class Wagon extends Component {
         const trainId = trainData.id;
 
         const url = trainData.trainType === 'freight'
-            ? `http://localhost:8080/freight/${trainId}/${wagonId}`
-            : `http://localhost:8080/passenger/${trainId}/${wagonId}`;
+            ? `http://localhost:8181/freight/${trainId}/${wagonId}`
+            : `http://localhost:8181/passenger/${trainId}/${wagonId}`;
 
         // Make the DELETE request
         axios
@@ -146,8 +146,8 @@ class Wagon extends Component {
         };
 
         const url = trainData.trainType === 'freight'
-            ? `http://localhost:8080/freight/${trainId}/add`
-            : `http://localhost:8080/passenger/${trainId}/add`;
+            ? `http://localhost:8181/freight/${trainId}/add`
+            : `http://localhost:8181/passenger/${trainId}/add`;
 
         // Make the POST request
         axios
